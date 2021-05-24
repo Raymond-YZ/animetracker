@@ -30,62 +30,44 @@ from yatl.helpers import A
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 from py4web.utils.url_signer import URLSigner
 from .models import get_user_email
-from py4web.utils.form import Form, FormStyleBulma
 
 url_signer = URLSigner(session)
 
 @action('index')
 @action.uses(db, auth, 'index.html')
 def index():
-    ## TODO: Show to each logged in user the birds they have seen with their count.
-    # The table must have an edit button to edit a row, and also, a +1 button to increase the count
-    # by 1 (this needs to be protected by a signed URL).
-    # On top of the table there is a button to insert a new bird.
-    rows = db(db.bird.seen_by == get_user_email()).select()
-    return dict(rows=rows, url_signer=url_signer)
+    return dict(
+        # COMPLETE: return here any signed URLs you need.
+        my_callback_url = URL('my_callback', signer=url_signer),
+        url_signer=url_signer,
+    )
 
-@action('add', method=['GET', 'POST'])
-@action.uses(db, session, auth.user, 'add.html')
-def add():
-    form = Form(db.bird, csrf_session=session, formstyle=FormStyleBulma)
-    if form.accepted:
-        redirect(URL('index'))
-    return dict(form=form)
+@action('go_to_profile')
+@action.uses(db, auth, auth.user, url_signer.verify())
+def go_to_profile():
+    redirect(URL('profile'))
+    return "ok"
 
-@action('edit/<bird_id:int>', method=["GET", "POST"])
-@action.uses(db, session, auth.user, url_signer.verify(), 'edit.html')
-def edit(bird_id=None):
-    assert bird_id is not None
-    p = db.bird[bird_id]
-    if p is None:
-        redirect(URL('index'))
-    form = Form(db.bird, record=p, deletable=False, csrf_session=session, formstyle=FormStyleBulma)
-    if form.accepted:
-        redirect(URL('index'))
-    return dict(form=form)
+@action('profile')
+@action.uses(db, auth, auth.user, 'profile.html')
+def profile():
+    return dict(
+        my_callback_url = URL('my_callback', signer=url_signer),
+        user_email=get_user_email(),
+        url_signer=url_signer,
+    )
 
-@action('delete/<bird_id:int>')
-@action.uses(db, session, auth.user, url_signer.verify())
-def delete(bird_id=None):
-    assert bird_id is not None
-    db(db.bird.id == bird_id).delete()
-    redirect(URL('index'))
+@action('go_to_list')
+@action.uses(db, auth, auth.user, url_signer.verify())
+def go_to_profile():
+    redirect(URL('list'))
+    return "ok"
 
-@action('inc/<bird_id:int>')
-@action.uses(db, auth.user, url_signer.verify())
-def inc(bird_id=None):
-    assert bird_id is not None
-    bird = db.bird[bird_id]
-    db(db.bird.id == bird_id).update(bird_count=bird.bird_count + 1)
-    redirect(URL('index'))
+@action('list')
+@action.uses(db, auth, auth.user, 'list.html')
+def list():
+    return dict(
+        my_callback_url = URL('my_callback', signer=url_signer),
+        user_email=get_user_email(),
+    )
 
-
-# This is an example only, to be used as inspiration for your code to increment the bird count.
-# Note that the bird_id parameter ...
-@action('capitalize/<bird_id:int>') # the :int means: please convert this to an int.
-@action.uses(db, auth.user, url_signer.verify())
-# ... has to match the bird_id parameter of the Python function here.
-def capitalize(bird_id=None):
-    assert bird_id is not None
-    bird = db.bird[bird_id]
-    db(db.bird.id == bird_id).update(bird_name=bird.bird_name.capitalize())
