@@ -14,10 +14,18 @@
     <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a class="navbar-item" href="[[=URL('index')]]">
-          Learn py4web
+          Anime Tracker
           <!-- <img class="logo" width="150" src="images/site_icon.png"> -->
         </a>
-
+        
+        <div class="navbar-item">
+        <div class="control has-icons-left ">
+            <input class="input is-small is-info" type="text" v-model="query" @change="" placeholder="Search"/>
+            <span class="icon is-large is-left">
+            <i class="fa fa-search"></i>
+            </span>
+        </div>
+        </div>
 
         <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="the-navbar-menu"
            onclick="this.classList.toggle('is-active');document.getElementById(this.dataset.target).classList.toggle('is-active');">
@@ -43,8 +51,7 @@
                   <div class="navbar-dropdown">
                     <a class="navbar-item" href="[[=URL('auth/logout')]]">Logout</a>
                     <a class="navbar-item" href="[[=URL('auth/profile')]]">Profile</a>
-                    <a class="navbar-item" href="[[=URL('auth/change_password')]]">Change Password</a></li>
-
+                    <a class="navbar-item" href="[[=URL('auth/change_password')]]">Change Password</a>
                   </div>
                 </div>
               [[else:]]
@@ -60,12 +67,6 @@
     <!-- beginning of HTML inserted by extending template -->
     [[include]]
     <!-- end of HTML inserted by extending template -->
-    <footer class="footer">
-      <div class="content has-text-centered">
-        Made with <a href="https://py4web.com">py4web</a>.
-        <a href="https://learn-py4web.github.io">Learn py4web!</a>
-      </div>
-    </footer>
   </body>
   <script src="js/sugar.min.js"></script>
   <script src="js/axios.min.js"></script>
