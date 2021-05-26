@@ -16,6 +16,11 @@
   <a class="button is-primary" href="[[=URL('go_to_profile', signer=url_signer)]]">
     <span>Profile</span>
   </a>
+
+  <h3>Top Anime</h3>
+  <div v-for="show in anime">
+    <p>{{show.name}}</p>
+  </div>
 </div>
 
 
@@ -23,6 +28,7 @@
 <!-- Loads the index-specific js for Vue -->
 <script>
   let my_callback_url = "[[=XML(my_callback_url)]]";
+  let add_anime_url = "[[=XML(add_anime_url)]]"
 </script>
 <script src="js/index.js"></script>
 [[end]]
