@@ -10,7 +10,10 @@ let init = (app) => {
     // This is the Vue data.
     app.data = {
         // Complete as you see fit.
-        anime: [], //array for anime
+        title: "",
+        episode_num: 0,
+        poster: "",
+        synopsis: "",
     };
 
     app.enumerate = (a) => {
@@ -18,33 +21,6 @@ let init = (app) => {
         let k = 0;
         a.map((e) => {e._idx = k++;});
         return a;
-    };
-
-    app.add_anime = function () {
-        fetch("https://kitsu.io/api/edge/anime", {
-            "method": "GET",
-            "headers": {
-                "Accept": "application/vnd.api+json",
-                "Content-Type": "application/vnd.api+json",
-            }
-        }).then(response => {
-            return response.json();
-        }).then(function(data) {
-            first_array = data["data"];
-            first_anime = first_array[0];
-            links = first_anime["links"];
-            attributes = first_anime["attributes"];
-            axios.post(add_anime_url,
-            {
-                link: links["self"],
-                name: attributes["canonicalTitle"],
-            }).then(function() {
-                app.vue.anime.push({
-                    link: links["self"],
-                    name: attributes["canonicalTitle"],
-                })
-            })
-        });
     };
 
 
@@ -64,8 +40,28 @@ let init = (app) => {
     app.init = () => {
         // Put here any initialization code.
         // Typically this is a server GET call to load the data.
-        app.add_anime();
-        console.log("Goodbye");
+        fetch("https://kitsu.io/api/edge/anime", {
+            "method": "GET",
+            "headers": {
+                "Accept": "application/vnd.api+json",
+                "Content-Type": "application/vnd.api+json"
+            }
+        }).then(response => {
+            return response.json();
+        }).then(function(data) {
+            first_array = data["data"];
+
+            first_dict = first_array[0];
+
+            attributes = first_dict["attributes"];
+
+            posterAttr = attributes["posterImage"];
+
+            app.vue.title = attributes["canonicalTitle"];
+            app.vue.poster = posterAttr["small"];
+            app.vue.episode_num = attributes["episodeCount"];
+            app.vue.synopsis = attributes["synopsis"];
+        });
     };
 
     // Call to the initializer.
