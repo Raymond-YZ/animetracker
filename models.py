@@ -34,4 +34,10 @@ db.define_table(
     Field('poster'),
 )
 
+db.define_table(
+    'anime_links',
+    Field('link'),
+    Field('name'),
+)
+
 db.commit()

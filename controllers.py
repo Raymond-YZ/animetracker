@@ -39,6 +39,7 @@ def index():
     return dict(
         # COMPLETE: return here any signed URLs you need.
         my_callback_url = URL('my_callback', signer=url_signer),
+        add_anime_url=URL('add_anime', signer=url_signer),
         url_signer=url_signer,
     )
 
@@ -46,6 +47,15 @@ def index():
 @action.uses(db, auth, auth.user, url_signer.verify())
 def go_to_profile():
     redirect(URL('profile'))
+    return "ok"
+
+@action('add_anime', method="POST")
+@action.uses(db, auth)
+def add_anime():
+    db.anime_links.insert(
+        link=request.json.get("link"),
+        name=request.json.get("name"),
+    )
     return "ok"
 
 @action('profile')
@@ -69,5 +79,12 @@ def list():
     return dict(
         my_callback_url = URL('my_callback', signer=url_signer),
         user_email=get_user_email(),
+    )
+
+@action('anime_page')
+@action.uses(db, auth, 'anime_page.html')
+def anime_page():
+    return dict(
+        my_callback_url = URL('my_callback', signer=url_signer),
     )
 
