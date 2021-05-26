@@ -11,16 +11,19 @@
   <!-- Put here your Vue.js template -->
   <h1 class="title">Anime Tracker</h1>
 
-  <h2>Welcome</h2>
+  <h2>{{title}}</h2>
 
-  <a class="button is-primary" href="[[=URL('go_to_profile', signer=url_signer)]]">
-    <span>Profile</span>
-  </a>
-
-  <h3>Top Anime</h3>
-  <div v-for="show in anime">
-    <p>{{show.name}}</p>
+  <div class="box">
+    <img :src="poster"/>
   </div>
+
+  <div>
+    Episodes: {{episode_num}}
+  </div>
+  <div>
+    <p>{{synopsis}}</p>
+  </div>
+
 </div>
 
 
@@ -28,7 +31,6 @@
 <!-- Loads the index-specific js for Vue -->
 <script>
   let my_callback_url = "[[=XML(my_callback_url)]]";
-  let add_anime_url = "[[=XML(add_anime_url)]]"
 </script>
-<script src="js/index.js"></script>
+<script src="js/anime_page.js"></script>
 [[end]]
