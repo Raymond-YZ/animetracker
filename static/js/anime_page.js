@@ -12,8 +12,12 @@ let init = (app) => {
         // Complete as you see fit.
         title: "",
         episode_num: 0,
-        poster: "",
         synopsis: "",
+        episode: 0,
+        poster: "",
+        start_date: "",
+        end_date: "",
+        trailer: "",
     };
 
     app.enumerate = (a) => {
@@ -60,7 +64,12 @@ let init = (app) => {
             app.vue.title = attributes["canonicalTitle"];
             app.vue.poster = posterAttr["small"];
             app.vue.episode_num = attributes["episodeCount"];
+            app.vue.episode = attributes["episodeCount"];
             app.vue.synopsis = attributes["synopsis"];
+            app.vue.start_date = attributes["startDate"];
+            app.vue.end_date = attributes["endDate"];
+            app.vue.trailer = "https://youtube.com/embed/" + attributes["youtubeVideoId"];
+
         });
     };
 

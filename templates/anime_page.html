@@ -2,29 +2,53 @@
 
 <style>
 [v-cloak] {
-     display: none;
+ display: none;
 }
 </style>
 
 
 <div class="section" id="vue-target">
-  <!-- Put here your Vue.js template -->
-  <h1 class="title">Anime Tracker</h1>
 
-  <h2>{{title}}</h2>
+  <div class="columns">
+    <div class="column is-3 is-offset-1">
+      <h1 class="title">{{title}}</h1>
 
-  <div class="box">
-    <img :src="poster"/>
+      <div class="card">
+        <div class="card-image">
+          <figure class="image 128x128">
+            <img :src="poster"/>
+          </figure>
+        </div>
+      </div>  
+      <i class="fa fa-caret-square-o-right has-text-success"></i>  Episodes: {{episode_num}}
+      <br>
+      <i class="fa fa-calendar has-text-info"></i> Air Date: {{start_date}} / {{end_date}}
+      <br>
+      <i class="fa fa-youtube-play has-text-danger"></i> Trailer:
+      <br>
+      <iframe width="100%" height="200" src="" allowfullscreen></iframe>
+      <!-- Add trailer, no idea how yet --> 
+    </div>
+    <div class="column is-3">
+      <article class="message is-dark">
+        <div class="message-header">
+          <p>  <b> Synopsis </b></p>
+        </div>
+        <div class="message-body">
+          <p>{{synopsis}}</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="column is-4">
+      <h2 class="title">
+      <i class="fa fa-comments-o"></i>
+        Comments
+        <!-- Allow users to view other posts and add posts for each anime -->
+      </h2>
+    </div>
   </div>
 
-  <div>
-    Episodes: {{episode_num}}
-  </div>
-  <div>
-    <p>{{synopsis}}</p>
-  </div>
-
-</div>
 
 
 [[block page_scripts]]
