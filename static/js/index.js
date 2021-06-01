@@ -10,7 +10,7 @@ let init = (app) => {
     // This is the Vue data.
     app.data = {
         // Complete as you see fit.
-        anime: [], //array for anime
+        //anime: [], //array for anime
     };
 
     app.enumerate = (a) => {
@@ -21,7 +21,7 @@ let init = (app) => {
     };
 
     app.add_anime = function () {
-        fetch("https://kitsu.io/api/edge/anime", {
+        fetch("https://kitsu.io/api/edge/anime?filter[season]=spring&filter[seasonYear]=2021&sort=-averageRating", {
             "method": "GET",
             "headers": {
                 "Accept": "application/vnd.api+json",
@@ -31,19 +31,19 @@ let init = (app) => {
             return response.json();
         }).then(function(data) {
             first_array = data["data"];
-            first_anime = first_array[0];
-            links = first_anime["links"];
-            attributes = first_anime["attributes"];
-            axios.post(add_anime_url,
-            {
-                link: links["self"],
-                name: attributes["canonicalTitle"],
-            }).then(function() {
-                app.vue.anime.push({
+            for (i = 0; i < first_array.length; i++) {
+                first_anime = first_array[i];
+                links = first_anime["links"];
+                attributes = first_anime["attributes"];
+                //app.vue.anime.push({link: links["self"],
+                //                     name: attributes["canonicalTitle"],});
+                axios.post(add_anime_url,
+                {
                     link: links["self"],
                     name: attributes["canonicalTitle"],
-                })
-            })
+                });
+
+            }
         });
     };
 
@@ -64,8 +64,11 @@ let init = (app) => {
     app.init = () => {
         // Put here any initialization code.
         // Typically this is a server GET call to load the data.
+        //for (i = 0; i < app.vue.anime.length; i++) {
+        //    app.vue.anime.pop();
+        //}
         app.add_anime();
-        console.log("Goodbye");
+        console.log("Hello");
     };
 
     // Call to the initializer.

@@ -12,12 +12,8 @@ let init = (app) => {
         // Complete as you see fit.
         title: "",
         episode_num: 0,
-        synopsis: "",
-        episode: 0,
         poster: "",
-        start_date: "",
-        end_date: "",
-        trailer: "",
+        synopsis: "",
     };
 
     app.enumerate = (a) => {
@@ -44,32 +40,50 @@ let init = (app) => {
     app.init = () => {
         // Put here any initialization code.
         // Typically this is a server GET call to load the data.
-        fetch("https://kitsu.io/api/edge/anime", {
+        //fetch("https://kitsu.io/api/edge/anime", {
+        //    "method": "GET",
+        //    "headers": {
+        //        "Accept": "application/vnd.api+json",
+        //        "Content-Type": "application/vnd.api+json"
+        //    }
+        //}).then(response => {
+        //    return response.json();
+        //}).then(function(data) {
+        //    first_array = data["data"];
+
+        //    first_dict = first_array[0];
+
+        //    attributes = first_dict["attributes"];
+
+        //    posterAttr = attributes["posterImage"];
+
+        //    app.vue.title = attributes["canonicalTitle"];
+        //    app.vue.poster = posterAttr["small"];
+        //    app.vue.episode_num = attributes["episodeCount"];
+        //    app.vue.synopsis = attributes["synopsis"];
+        //});
+        axios.get(get_anime_url).then(function (response) {
+            console.log(response.data.show);
+            fetch(response.data.show, {
             "method": "GET",
             "headers": {
                 "Accept": "application/vnd.api+json",
                 "Content-Type": "application/vnd.api+json"
-            }
-        }).then(response => {
-            return response.json();
-        }).then(function(data) {
-            first_array = data["data"];
+                }
+            }).then(response => {
+                return response.json();
+            }).then(function(data) {
+                first_dict = data["data"];
 
-            first_dict = first_array[0];
+                attributes = first_dict["attributes"];
 
-            attributes = first_dict["attributes"];
+                posterAttr = attributes["posterImage"];
 
-            posterAttr = attributes["posterImage"];
-
-            app.vue.title = attributes["canonicalTitle"];
-            app.vue.poster = posterAttr["small"];
-            app.vue.episode_num = attributes["episodeCount"];
-            app.vue.episode = attributes["episodeCount"];
-            app.vue.synopsis = attributes["synopsis"];
-            app.vue.start_date = attributes["startDate"];
-            app.vue.end_date = attributes["endDate"];
-            app.vue.trailer = "https://youtube.com/embed/" + attributes["youtubeVideoId"];
-
+                app.vue.title = attributes["canonicalTitle"];
+                app.vue.poster = posterAttr["small"];
+                app.vue.episode_num = attributes["episodeCount"];
+                app.vue.synopsis = attributes["synopsis"];
+            });
         });
     };
 
