@@ -14,6 +14,9 @@ let init = (app) => {
         episode_num: 0,
         poster: "",
         synopsis: "",
+        start_date: "",
+        end_date: "",
+        trailer: "",
     };
 
     app.enumerate = (a) => {
@@ -83,6 +86,9 @@ let init = (app) => {
                 app.vue.poster = posterAttr["small"];
                 app.vue.episode_num = attributes["episodeCount"];
                 app.vue.synopsis = attributes["synopsis"];
+                app.vue.start_date = attributes["startDate"];
+                app.vue.end_date = attributes["endDate"];
+                app.vue.trailer = attributes["youtubeVideoId"];
             });
         });
     };
