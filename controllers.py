@@ -30,18 +30,20 @@ from yatl.helpers import A
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 from py4web.utils.url_signer import URLSigner
 from .models import get_user_email
-import jwt
 
 url_signer = URLSigner(session)
 
 @action('index')
 @action.uses(db, auth, 'index.html')
 def index():
+    rows = db(db.anime_shows).select()
+    assert rows is not None
     return dict(
         # COMPLETE: return here any signed URLs you need.
         my_callback_url = URL('my_callback', signer=url_signer),
         add_anime_url=URL('add_anime', signer=url_signer),
         url_signer=url_signer,
+        rows=rows,
     )
 
 @action('go_to_profile')
@@ -53,9 +55,13 @@ def go_to_profile():
 @action('add_anime', method="POST")
 @action.uses(db, auth)
 def add_anime():
-    db.anime_links.insert(
-        link=request.json.get("link"),
-        name=request.json.get("name"),
+    link=request.json.get("link")
+    name=request.json.get("name")
+    db.anime_shows.update_or_insert(
+        ((db.anime_shows.name == name) &
+         (db.anime_shows.link == link)),
+        link=link,
+        name=name,
     )
     return "ok"
 
@@ -74,6 +80,13 @@ def go_to_profile():
     redirect(URL('list'))
     return "ok"
 
+@action('go_to_anime/<anime_id:int>')
+@action.uses(db, auth)
+def go_to_anime(anime_id=None):
+    assert anime_id is not None
+    redirect(URL('anime_page', anime_id))
+    return "ok"
+
 @action('list')
 @action.uses(db, auth, auth.user, 'list.html')
 def list():
@@ -82,10 +95,19 @@ def list():
         user_email=get_user_email(),
     )
 
-@action('anime_page')
+@action('anime_page/<anime_id:int>')
 @action.uses(db, auth, 'anime_page.html')
-def anime_page():
+def anime_page(anime_id=None):
+    assert anime_id is not None
     return dict(
         my_callback_url = URL('my_callback', signer=url_signer),
+        get_anime_url = URL('get_anime', anime_id, signer=url_signer),
     )
+
+@action('get_anime/<anime_id:int>')
+@action.uses(db, auth)
+def get_anime(anime_id=None):
+    assert anime_id is not None
+    show = db(db.anime_shows.id == anime_id).select().first()
+    return dict(show=show['link'])
 

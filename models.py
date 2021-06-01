@@ -24,9 +24,6 @@ db.define_table(
     'profiles',
     Field('username', default='WeebWarrior'),
     Field('user_email', default=get_user_email),
-    Field('birthdate'),
-    Field('location'),
-    Field('gender'),
 )
 
 db.define_table(
@@ -38,7 +35,7 @@ db.define_table(
 )
 
 db.define_table(
-    'anime_links',
+    'anime_shows',
     Field('link'),
     Field('name'),
 )
