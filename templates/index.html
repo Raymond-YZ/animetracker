@@ -18,9 +18,20 @@
   </a>
 
   <h3>Top Anime</h3>
-  <div v-for="show in anime">
-    <p>{{show.name}}</p>
-  </div>
+  <!--<div v-for="show in anime">
+    <div class="box">
+      <p>{{show.name}}</p>
+      <a class="button is-info" href="[[=URL('go_to_anime')]]">
+        <span>page</span>
+      </a>
+    </div>
+  </div>-->
+  [[for row in rows:]]
+    <p>[[=row['name'] ]]</p>
+    <a class="button is-info" href="[[=URL('go_to_anime', row['id'])]]">
+      <span>page</span>
+    </a>
+  [[pass]]
 </div>
 
 
