@@ -88,7 +88,7 @@ let init = (app) => {
                 app.vue.synopsis = attributes["synopsis"];
                 app.vue.start_date = attributes["startDate"];
                 app.vue.end_date = attributes["endDate"];
-                app.vue.trailer = attributes["youtubeVideoId"];
+                app.vue.trailer = "https://www.youtube.com/embed/" + attributes["youtubeVideoId"];
             });
         });
     };
