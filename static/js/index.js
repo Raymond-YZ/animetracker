@@ -11,6 +11,7 @@ let init = (app) => {
     app.data = {
         // Complete as you see fit.
         //anime: [], //array for anime
+        loggedin: false,
     };
 
     app.enumerate = (a) => {

@@ -1,9 +1,9 @@
 [[extend 'layout.html']]
 
 <style>
-[v-cloak] {
-     display: none;
-}
+  [v-cloak] {
+    display: none;
+  }
 </style>
 
 
@@ -13,9 +13,13 @@
 
   <h2>Welcome</h2>
 
+  <!-- [[if globals().get('user'):]]
   <a class="button is-primary" href="[[=URL('go_to_profile', signer=url_signer)]]">
     <span>Profile</span>
   </a>
+  [[else:]]
+  <a class="button is-link" href="[[=URL('auth/plugin/oauth2google/login', vars=dict(next='../index'))]]">Log In</a>
+  [[pass]] -->
 
   <h3>Top Anime</h3>
   <!--<div v-for="show in anime">
@@ -27,10 +31,10 @@
     </div>
   </div>-->
   [[for row in rows:]]
-    <p>[[=row['name'] ]]</p>
-    <a class="button is-info" href="[[=URL('go_to_anime', row['id'])]]">
-      <span>page</span>
-    </a>
+  <p>[[=row['name'] ]]</p>
+  <a class="button is-info" href="[[=URL('go_to_anime', row['id'])]]">
+    <span>page</span>
+  </a>
   [[pass]]
 </div>
 
