@@ -10,6 +10,9 @@ from pydal.validators import *
 def get_user_email():
     return auth.current_user.get('email') if auth.current_user else None
 
+def get_user():
+    return auth.current_user.get('id') if auth.current_user else None
+
 def get_time():
     return datetime.datetime.utcnow()
 
@@ -28,8 +31,9 @@ db.define_table(
 
 db.define_table(
     'list',
-    Field('profile', 'reference profiles'),
+    Field('user', default=get_user_email),
     Field('anime_name'),
+    Field('episodes_watched', default=0),
     Field('episode_num', default=0),
     Field('poster'),
 )
@@ -38,6 +42,7 @@ db.define_table(
     'anime_shows',
     Field('link'),
     Field('name'),
+    Field('poster'),
 )
 
 db.commit()

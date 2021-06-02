@@ -58,11 +58,12 @@ def go_to_profile():
 def add_anime():
     link=request.json.get("link")
     name=request.json.get("name")
+    poster = request.json.get("poster")
     db.anime_shows.update_or_insert(
-        ((db.anime_shows.name == name) &
-         (db.anime_shows.link == link)),
+        (db.anime_shows.link == link),
         link=link,
         name=name,
+        poster=poster,
     )
     return "ok"
 
@@ -72,6 +73,7 @@ def profile():
     return dict(
         my_callback_url = URL('my_callback', signer=url_signer),
         file_upload_url = URL('file_upload', signer=url_signer),
+        load_list_url=URL('load_list', signer=url_signer),
         user_email=get_user_email(),
         url_signer=url_signer,
     )
@@ -81,6 +83,14 @@ def profile():
 def go_to_profile():
     redirect(URL('list'))
     return "ok"
+
+@action('load_list')
+@action.uses(db, url_signer.verify())
+def load_list():
+    #user = db(db.auth_user.email == get_user_email()).select().first()
+    show_list = db(db.list.user == get_user_email()).select().as_list()
+    print(show_list)
+    return dict(show_list=show_list)
 
 @action('go_to_anime/<anime_id:int>')
 @action.uses(db, auth)
@@ -104,6 +114,8 @@ def anime_page(anime_id=None):
     return dict(
         my_callback_url = URL('my_callback', signer=url_signer),
         get_anime_url = URL('get_anime', anime_id, signer=url_signer),
+        add_to_list_url=URL('add_to_list', signer=url_signer),
+        url_signer=url_signer,
     )
 
 @action('get_anime/<anime_id:int>')
@@ -112,6 +124,20 @@ def get_anime(anime_id=None):
     assert anime_id is not None
     show = db(db.anime_shows.id == anime_id).select().first()
     return dict(show=show['link'])
+
+@action('add_to_list', method="POST")
+@action.uses(db, url_signer.verify())
+def add_to_list():
+    user = db(db.auth_user.email == get_user_email()).select().first()
+    title = request.json.get("title")
+    episode_num = request.json.get("episode_num")
+    poster = request.json.get("poster")
+    db.list.insert(
+        anime_name = title,
+        episode_num = episode_num,
+        poster = poster,
+    )
+    return "ok"
 
 @action('file_upload', method="PUT")
 @action.uses() # Add here things you might want to use.
