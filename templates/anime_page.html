@@ -29,7 +29,11 @@
       <iframe width="100%" height="200" :src="trailer" allowfullscreen></iframe>
     </div>
     <div class="column is-3">
+      <button @click="add_show()" class="button is-primary">
+        <i class="fa fa-plus fw"> Add Anime to WatchList</i>
+      </button>
       <article class="message is-dark">
+        <br>
         <div class="message-header">
           <p>  <b> Synopsis </b></p>
         </div>
@@ -41,15 +45,12 @@
 
     <div class="column is-4">
       <h2 class="title">
-      <i class="fa fa-comments-o"></i>
+        <i class="fa fa-comments-o"></i>
         Comments
         <!-- Allow users to view other posts and add posts for each anime -->
       </h2>
     </div>
   </div>
-  <button @click="add_show()" class="button is-primary">
-    <i class="fa fa-plus fw"></i>
-  </button>
 </div>
 
 [[block page_scripts]]
