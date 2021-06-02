@@ -1,9 +1,9 @@
 [[extend 'layout.html']]
 
 <style>
-  [v-cloak] {
-    display: none;
-  }
+[v-cloak] {
+  display: none;
+}
 </style>
 
 
@@ -14,13 +14,13 @@
   [[if globals().get('user'):]]
   <h2>Click on the top anime below to add to your list!
     <br />
-     You can add reviews for each title so others can see!</h2>
-     <br />
+  You can add reviews for each title so others can see!</h2>
+  <br />
   [[else:]]
   <h2>Wanna see how far down the rabbit hole you've come?
     <br />
-     Track your watched anime here and see what your fellow weebs have to say!</h2>
-     <br />
+  Track your watched anime here and see what your fellow weebs have to say!</h2>
+  <br />
   [[pass]]
   <!-- [[if globals().get('user'):]]
   <a class="button is-primary" href="[[=URL('go_to_profile', signer=url_signer)]]">
@@ -31,24 +31,28 @@
   [[pass]] -->
 
   <h3 class="title">Top Anime Spring 2021</h3>
-  <!--<div v-for="show in anime">
-    <div class="box">
-      <p>{{show.name}}</p>
-      <a class="button is-info" href="[[=URL('go_to_anime')]]">
-        <span>page</span>
-      </a>
-    </div>
-  </div>-->
-  [[for row in rows:]]
-  <p>[[=row['name'] ]]</p>
-  <a class="button is-info" href="[[=URL('go_to_anime', row['id'])]]">
-    <span>page</span>
-  </a>
-  <p></p>
-  <br />
+  
+  <div class="columns">
+    <div class="column is-2 is-offset-1">
 
-  [[pass]]
+      [[for row in rows:]]
+      <div class="card is-horizontal">
+        <div class="card-image">
+          <figure class="image is-4by3">
+            <img src="https://bulma.io/images/placeholders/1280x960.png">
+          </figure>
+        </div>
+        <div class="card-content has-text-centered">
+         <a href="[[=URL('go_to_anime', row['id'])]]">
+          [[=row['name'] ]]
+        </a>           
+      </div>
+    </div>
+    <br>
+    [[pass]]
+  </div>    
 </div>
+
 
 
 [[block page_scripts]]
