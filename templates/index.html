@@ -6,23 +6,25 @@
   }
 </style>
 
+<div class="has-text-centered">
+  <div class="section" id="vue-target">
+    <!-- Put here your Vue.js template -->
+    <h1 class="title">Anime Tracker</h1>
 
-<div class="section" id="vue-target">
-  <!-- Put here your Vue.js template -->
-  <h1 class="title">Anime Tracker</h1>
-
-  [[if globals().get('user'):]]
-  <h2>Click on the top anime below to add to your list!
+    [[if globals().get('user'):]]
+    <h2>Click on the top anime below to add to your list!
+      <br />
+      You can add reviews for each title so others can see!
+    </h2>
     <br />
-     You can add reviews for each title so others can see!</h2>
-     <br />
-  [[else:]]
-  <h2>Wanna see how far down the rabbit hole you've come?
+    [[else:]]
+    <h2>Wanna see how far down the rabbit hole you've come?
+      <br />
+      Track your watched anime here and see what your fellow weebs have to say!
+    </h2>
     <br />
-     Track your watched anime here and see what your fellow weebs have to say!</h2>
-     <br />
-  [[pass]]
-  <!-- [[if globals().get('user'):]]
+    [[pass]]
+    <!-- [[if globals().get('user'):]]
   <a class="button is-primary" href="[[=URL('go_to_profile', signer=url_signer)]]">
     <span>Profile</span>
   </a>
@@ -30,8 +32,8 @@
   <a class="button is-link" href="[[=URL('auth/plugin/oauth2google/login', vars=dict(next='../index'))]]">Log In</a>
   [[pass]] -->
 
-  <h3 class="title">Top Anime Spring 2021</h3>
-  <!--<div v-for="show in anime">
+    <h3 class="title">Top Anime Spring 2021</h3>
+    <!--<div v-for="show in anime">
     <div class="box">
       <p>{{show.name}}</p>
       <a class="button is-info" href="[[=URL('go_to_anime')]]">
@@ -39,15 +41,16 @@
       </a>
     </div>
   </div>-->
-  [[for row in rows:]]
-  <p>[[=row['name'] ]]</p>
-  <a class="button is-info" href="[[=URL('go_to_anime', row['id'])]]">
-    <span>page</span>
-  </a>
-  <p></p>
-  <br />
+    [[for row in rows:]]
+    <p>[[=row['name'] ]]</p>
+    <a class="button is-info" href="[[=URL('go_to_anime', row['id'])]]">
+      <span>page</span>
+    </a>
+    <p></p>
+    <br />
 
-  [[pass]]
+    [[pass]]
+  </div>
 </div>
 
 

@@ -59,7 +59,7 @@
             <a class="button is-primary" href="[[=URL('go_to_profile', signer=url_signer)]]">
               <span>Profile</span>
             </a>
-            <a class="button is-light" href="[[=URL('auth/logout')]]">Log out</a>
+            <a class="button is-danger" href="[[=URL('auth/logout')]]">Log out</a>
             [[else:]]
             <a class="button is-link" href="[[=URL('auth/plugin/oauth2google/login', vars=dict(next='../index'))]]">Log In</a>
             [[pass]]

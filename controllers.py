@@ -95,6 +95,7 @@ def list():
     return dict(
         my_callback_url = URL('my_callback', signer=url_signer),
         user_email=get_user_email(),
+        url_signer=url_signer,
     )
 
 @action('anime_page/<anime_id:int>')
@@ -104,6 +105,7 @@ def anime_page(anime_id=None):
     return dict(
         my_callback_url = URL('my_callback', signer=url_signer),
         get_anime_url = URL('get_anime', anime_id, signer=url_signer),
+        url_signer=url_signer,
     )
 
 @action('get_anime/<anime_id:int>')
