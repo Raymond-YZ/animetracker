@@ -26,10 +26,19 @@ let init = (app) => {
         return a;
     };
 
+    app.add_show = function () {
+        axios.post(add_to_list_url, {
+            title: app.vue.title,
+            episode_num: app.vue.episode_num,
+            poster: app.vue.poster,
+        });
+    }
+
 
     // This contains all the methods.
     app.methods = {
         // Complete as you see fit.
+        add_show: app.add_show,
     };
 
     // This creates the Vue instance.

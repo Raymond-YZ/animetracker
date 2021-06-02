@@ -36,12 +36,14 @@ let init = (app) => {
                 first_anime = first_array[i];
                 links = first_anime["links"];
                 attributes = first_anime["attributes"];
+                posterAttr = attributes["posterImage"];
                 //app.vue.anime.push({link: links["self"],
                 //                     name: attributes["canonicalTitle"],});
                 axios.post(add_anime_url,
                 {
                     link: links["self"],
                     name: attributes["canonicalTitle"],
+                    poster: posterAttr["small"],
                 });
 
             }

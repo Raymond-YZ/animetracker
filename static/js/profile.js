@@ -15,6 +15,7 @@ let init = (app) => {
         uploaded_file: "",
         uploaded: false,
         img_url: "",
+        shows: [],
     };
 
     app.file = null;
@@ -81,6 +82,9 @@ let init = (app) => {
     app.init = () => {
         // Put here any initialization code.
         // Typically this is a server GET call to load the data.
+        axios.get(load_list_url).then(function (response) {
+            app.vue.shows = response.data.show_list
+        })
     };
 
     // Call to the initializer.
