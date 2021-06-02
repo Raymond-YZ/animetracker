@@ -43,6 +43,7 @@ def index():
         my_callback_url = URL('my_callback', signer=url_signer),
         add_anime_url=URL('add_anime', signer=url_signer),
         file_upload_url = URL('file_upload', signer=url_signer),
+        
         url_signer=url_signer,
         rows=rows,
     )
@@ -70,8 +71,8 @@ def add_anime():
 @action.uses(db, auth,'profile.html')
 def profile():
     return dict(
-        my_callback_url = URL('my_callback', signer=url_signer),
         file_upload_url = URL('file_upload', signer=url_signer),
+        upload_thumbnail_url = URL('upload_thumbnail', signer=url_signer),
         user_email=get_user_email(),
         url_signer=url_signer,
     )
@@ -93,7 +94,6 @@ def go_to_anime(anime_id=None):
 @action.uses(db, auth, auth.user, 'list.html')
 def list():
     return dict(
-        my_callback_url = URL('my_callback', signer=url_signer),
         user_email=get_user_email(),
         url_signer=url_signer,
     )
@@ -103,7 +103,6 @@ def list():
 def anime_page(anime_id=None):
     assert anime_id is not None
     return dict(
-        my_callback_url = URL('my_callback', signer=url_signer),
         get_anime_url = URL('get_anime', anime_id, signer=url_signer),
         url_signer=url_signer,
     )
@@ -115,14 +114,11 @@ def get_anime(anime_id=None):
     show = db(db.anime_shows.id == anime_id).select().first()
     return dict(show=show['link'])
 
-@action('file_upload', method="PUT")
-@action.uses() # Add here things you might want to use.
-def file_upload():
-    file_name = request.params.get("file_name")
-    file_type = request.params.get("file_type")
-    uploaded_file = request.body # This is a file, you can read it.
-    # Diagnostics
-    print("Uploaded", file_name, "of type", file_type)
-    print("Content:", uploaded_file.read())
+@action('upload_thumbnail', method="POST")
+@action.uses(url_signer.verify(), db)
+def upload_thumbnail():
+    profile_id = request.json.get("profile_id")
+    thumbnail = request.json.get("thumbnail")
+    db(db.profiles.id == profile_id).update(thumbnail=thumbnail)
     return "ok"
 

@@ -45,21 +45,25 @@ let init = (app) => {
         app.vue.uploaded = true;
     };
 
-    app.upload_file = function () {
-        if (app.file) {
-            let file_type = app.file.type;
-            let file_name = app.file.name;
-            let full_url = file_upload_url + "&file_name=" + encodeURIComponent(file_name)
-                + "&file_type=" + encodeURIComponent(file_type);
-            // Uploads the file, using the low-level streaming interface. This avoid any
-            // encoding.
-            app.vue.uploading = true;
-            let req = new XMLHttpRequest();
-            req.addEventListener("load", function () {
-                app.upload_complete(file_name, file_type)
+    app.upload_file = function (event) {
+        let input = event.target;
+        let file = input.files[0];
+        if (file) {
+            let reader = new FileReader();
+            reader.addEventListener("load", function () {
+                // Sends the image to the server.
+                axios.post(upload_thumbnail_url,
+                    {
+                        thumbnail: reader.result,
+                    })
+                    .then(function () {
+                        // Sets the local preview.
+                        thumbnail = reader.result;
+                        console.log("thumbnail");
+
+                    });
             });
-            req.open("PUT", full_url, true);
-            req.send(app.file);
+            reader.readAsDataURL(file);
         }
     };
 
