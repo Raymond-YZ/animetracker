@@ -14,6 +14,7 @@ let init = (app) => {
         uploading: false,
         uploaded_file: "",
         uploaded: false,
+        upload_done: false,
         img_url: "",
         shows: [],
     };
@@ -23,11 +24,11 @@ let init = (app) => {
     app.enumerate = (a) => {
         // This adds an _idx field to each element of the array.
         let k = 0;
-        a.map((e) => {e._idx = k++;});
+        a.map((e) => { e._idx = k++; });
         return a;
     };
 
-    app.select_file = function(event){
+    app.select_file = function (event) {
         let input = event.target;
         app.file = input.files[0];
         if (app.file) {
@@ -44,9 +45,10 @@ let init = (app) => {
     app.upload_complete = function (file_name, file_type) {
         app.vue.uploading = false;
         app.vue.uploaded = true;
+        app.vue.uploaded_file = file_name;
     };
 
-    app.upload_file = function () {
+    app.upload_file = function (event) {
         if (app.file) {
             let file_type = app.file.type;
             let file_name = app.file.name;
@@ -62,6 +64,28 @@ let init = (app) => {
             req.open("PUT", full_url, true);
             req.send(app.file);
         }
+
+        // // We need the event to find the file.
+        // let self = this;
+        // // Reads the file.
+        // let input = event.target;
+        // let file = input.files[0];
+        // if (file) {
+        //     self.uploading = true;
+        //     let file_type = file.type;
+        //     let file_name = file.name;
+        //     let full_url = file_upload_url + "&file_name=" + encodeURIComponent(file_name)
+        //         + "&file_type=" + encodeURIComponent(file_type);
+        //     // Uploads the file, using the low-level streaming interface. This avoid any
+        //     // encoding.
+        //     app.vue.uploading = true;
+        //     let req = new XMLHttpRequest();
+        //     req.addEventListener("load", function () {
+        //         app.upload_complete(file_name, file_type)
+        //     });
+        //     req.open("PUT", full_url, true);
+        //     req.send(file);
+        // }
     };
 
     // This contains all the methods.

@@ -140,7 +140,7 @@ def add_to_list():
     return "ok"
 
 @action('file_upload', method="PUT")
-@action.uses() # Add here things you might want to use.
+@action.uses()
 def file_upload():
     file_name = request.params.get("file_name")
     file_type = request.params.get("file_type")
