@@ -150,3 +150,10 @@ def file_upload():
     print("Content:", uploaded_file.read())
     return "ok"
 
+@action('browse')
+@action.uses(db, auth, "browse.html")
+def browse():
+    return dict(
+        my_callback_url = URL('my_callback', signer=url_signer),
+    )
+
