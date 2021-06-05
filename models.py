@@ -47,4 +47,9 @@ db.define_table(
     Field('poster'),
 )
 
+db.define_table('comment',
+                Field('text'),
+                Field('user'),
+                Field('user_email', default = get_user_email))
+
 db.commit()
