@@ -17,6 +17,9 @@ let init = (app) => {
         start_date: "",
         end_date: "",
         trailer: "",
+        comments: [],
+        add_mode: false,
+        add_text: "",
     };
 
     app.enumerate = (a) => {
@@ -34,11 +37,53 @@ let init = (app) => {
         });
     }
 
+    app.add_comment = function () {
+        axios.post(add_comment_url,
+            {
+                text: app.vue.add_text,
+            }).then(function (response) {
+                app.vue.comments.push({
+                    id: response.data.id,
+                    text: app.vue.add_text,
+                    user: response.data.user,
+                    user_email: response.data.user_email
+                });
+                app.enumerate(app.vue.comments);
+                app.reset_form();
+                app.set_add_status(false);
+
+            });
+        app.init();
+    };
+
+    app.set_add_status = function (new_status) {
+        app.vue.add_mode = new_status;
+    };
+
+    app.reset_form = function () {
+        app.vue.add_text = "";
+    };
+
+    app.delete_comment = function (comment_idx) {
+        let id = app.vue.comments[comment_idx].id;
+        axios.get(delete_comment_url, { params: { id: id } }).then(function (response) {
+            for (let i = 0; i < app.vue.comments.length; i++) {
+                if (app.vue.comments[i].id === id) {
+                    app.vue.comments.splice(i, 1);
+                    app.enumerate(app.vue.comments);
+                    break;
+                }
+            }
+        })
+    };
 
     // This contains all the methods.
     app.methods = {
         // Complete as you see fit.
         add_show: app.add_show,
+        add_comment: app.add_comment,
+        set_add_status: app.set_add_status,
+        delete_comment: app.delete_comment,
     };
 
     // This creates the Vue instance.
@@ -100,6 +145,24 @@ let init = (app) => {
                 app.vue.trailer = "https://www.youtube.com/embed/" + attributes["youtubeVideoId"];
             });
         });
+
+        axios.get(load_comments_url)
+            .then(function (response) {
+            //    app.complete(response.data.comments);
+                app.vue.comments = app.enumerate(response.data.comments)
+            // })
+            // .then(() => {
+            //     for (let comment of app.vue.comments) {
+            //         axios.get(get_like_url, { params: { comment_id: comment.id} })
+            //             .then((result) => {
+            //                 post.liked = result.data.like;
+            //                 post.liked_display = result.data.like;
+            //                 post.disliked = result.data.dislike;
+            //                 post.disliked_display = result.data.dislike;
+                        
+            //             })
+            //     }
+            });
     };
 
     // Call to the initializer.
