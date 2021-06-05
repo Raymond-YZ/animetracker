@@ -74,6 +74,7 @@ def profile():
         my_callback_url = URL('my_callback', signer=url_signer),
         file_upload_url = URL('file_upload', signer=url_signer),
         load_list_url=URL('load_list', signer=url_signer),
+        delete_show_url = URL('delete_show', signer=url_signer),
         user_email=get_user_email(),
         url_signer=url_signer,
     )
@@ -89,7 +90,6 @@ def go_to_profile():
 def load_list():
     #user = db(db.auth_user.email == get_user_email()).select().first()
     show_list = db(db.list.user == get_user_email()).select().as_list()
-    print(show_list)
     return dict(show_list=show_list)
 
 @action('go_to_anime/<anime_id:int>')
@@ -106,6 +106,16 @@ def list():
         my_callback_url = URL('my_callback', signer=url_signer),
         user_email=get_user_email(),
     )
+
+@action('delete_show')
+@action.uses(db, auth, url_signer.verify())
+def delete_show():
+    email = request.params.get("email")
+    name = request.params.get("name")
+    assert email is not None
+    assert name is not None
+    db((db.list.user == email) & (db.list.anime_name == name)).delete()
+    return "ok"
 
 @action('anime_page/<anime_id:int>')
 @action.uses(db, auth, 'anime_page.html')
@@ -136,7 +146,9 @@ def add_to_list():
     title = request.json.get("title")
     episode_num = request.json.get("episode_num")
     poster = request.json.get("poster")
-    db.list.insert(
+    db.list.update_or_insert(
+        ((db.list.user == get_user_email()) &
+         (db.list.anime_name == title)),
         anime_name = title,
         episode_num = episode_num,
         poster = poster,
