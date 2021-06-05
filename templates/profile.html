@@ -75,8 +75,14 @@
 				{{show.episodes_watched}}
 				{{show.episode_num}}
 			</div>
+			<span class="has-text-danger is-pulled-right">
+				<span @click="delete_show(show.user, show.anime_name)">
+					<i class="fa fa-trash fa-fw"></i>
+				</span>
+			</span>
 		</div>
 	</div>
+</div>
 
 
 
@@ -86,7 +92,8 @@
 	<script>
 		let my_callback_url = "[[=XML(my_callback_url)]]";
 		let file_upload_url = "[[=XML(file_upload_url)]]";
-		let load_list_url = "[[=XML(load_list_url)]]"
+		let load_list_url = "[[=XML(load_list_url)]]";
+		let delete_show_url = "[[=XML(delete_show_url)]]";
 	</script>
 	<script src="js/profile.js"></script>
 	[[end]]
