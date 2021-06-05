@@ -88,11 +88,24 @@ let init = (app) => {
         // }
     };
 
+    app.delete_show = function (email, anime_name) {
+        axios.get(delete_show_url, { params: {email: email, name: anime_name} }).then(function(response){
+            for (i = 0; i < app.vue.shows.length; i++) {
+                if ((app.vue.shows[i].user == email) &&
+                    (app.vue.shows[i].anime_name == anime_name)) {
+                    app.vue.shows.splice(i, 1);
+                    break;
+                }
+            }
+        });
+    };
+
     // This contains all the methods.
     app.methods = {
         // Complete as you see fit.
         select_file: app.select_file,
         upload_file: app.upload_file,
+        delete_show: app.delete_show,
     };
 
     // This creates the Vue instance.
