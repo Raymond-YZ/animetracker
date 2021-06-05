@@ -1,9 +1,9 @@
 [[extend 'layout.html']]
 
 <style>
-[v-cloak] {
- display: none;
-}
+  [v-cloak] {
+    display: none;
+  }
 </style>
 
 
@@ -12,16 +12,20 @@
   <div class="columns">
     <div class="column is-3 is-offset-1">
       <h1 class="title">{{title}}</h1>
+      
+      <a class="button is-info" href="[[=URL('index')]]">
+        <span><i class="fa fa-backward fw"></i> Back </span>
+      </a>
       <br>
       <div class="card">
         <div class="card-image">
           <figure class="image 128x128">
-            <img :src="poster"/>
+            <img :src="poster" />
           </figure>
         </div>
-      </div>  
-    
-      
+      </div>
+
+
     </div>
     <div class="column is-3">
       <button @click="add_show()" class="button is-primary">
@@ -30,13 +34,13 @@
       <article class="message is-dark">
         <br>
         <div class="message-header">
-          <p>  <b> Synopsis </b></p>
+          <p> <b> Synopsis </b></p>
         </div>
         <div class="message-body">
           <p>{{synopsis}}</p>
         </div>
       </article>
-      <i class="fa fa-caret-square-o-right has-text-success"></i>  Episodes: {{episode_num}}
+      <i class="fa fa-caret-square-o-right has-text-success"></i> Episodes: {{episode_num}}
       <br>
       <i class="fa fa-calendar has-text-info"></i> Air Date: {{start_date}} / {{end_date}}
       <br>
@@ -53,7 +57,7 @@
       </h2>
     </div>
   </div>
-  
+
 </div>
 
 [[block page_scripts]]

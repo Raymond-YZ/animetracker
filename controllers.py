@@ -155,5 +155,6 @@ def file_upload():
 def browse():
     return dict(
         my_callback_url = URL('my_callback', signer=url_signer),
+        url_signer = url_signer
     )
 
