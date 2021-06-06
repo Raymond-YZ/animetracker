@@ -9,7 +9,7 @@
 
 
 
-<div class="section" id="vue-target">
+<div class="section" id="vue-target" v-cloak>
     <h1 class="title">Find an Anime</h1>
     <div>
         <a class="button is-info" href="[[=URL('index')]]">
@@ -35,7 +35,37 @@
 
         <br>
 
+        <!--<div v-if="search_status">
+            <div v-for="res in results">
+                <div class="card">
+                    <figure class="card-image">
+                        <div class="image is=128x128">
+                            <img :src="res.poster">
+                        </div>
+                    </figure>
+                    <div class="media-content">
+                        <strong>placeholderchars {{res.name}}</strong>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+        <div class="section">
+            [[for res in search:]]
+            <div>
+                [[=res['name'] ]]
+            </div>
+            [[pass]]
+        </div>
         <div v-for="res in results">
+            <div>
+                {{res.name}}
+            </div>
+        </div>
+    </section>
+
+        <!--<div v-for="res in results">
             <div class="card">
               <figure class="card-image">
                 <div class="image is-128x128">
@@ -43,23 +73,19 @@
               </div>
           </figure>
           <div class="media-content">
-            <strong>placeholderchars  {{res.name}}</strong> 
+            <strong>placeholderchars  {{res.name}}</strong>
             <br>
         </div>
-    </div>
+    </div>-->
     <br>
-</div>
-<br>
-</div>
-</div>
-
-
-
 </div>
 
 [[block page_scripts]]
 <script>
     let my_callback_url = "[[=XML(my_callback_url)]]";
+    let add_search_url = "[[=XML(add_search_url)]]";
+    let add_anime_url = "[[=XML(add_anime_url)]]";
+    let delete_search_url = "[[=XML(delete_search_url)]]";
 </script>
 <script src="js/browse.js"></script>
 [[end]]
