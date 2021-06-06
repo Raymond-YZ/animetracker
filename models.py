@@ -47,6 +47,13 @@ db.define_table(
     Field('poster'),
 )
 
+db.define_table(
+    'search_results',
+    Field('link'),
+    Field('name'),
+    Field('poster'),
+)
+
 db.define_table('comment',
                 Field('text'),
                 Field('user'),
