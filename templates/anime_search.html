@@ -1,0 +1,149 @@
+[[extend 'layout.html']]
+
+<style>
+  [v-cloak] {
+    display: none;
+  }
+</style>
+
+
+<div class="section" id="vue-target">
+
+  <div class="columns">
+    <div class="column is-3 is-offset-1">
+      <h1 class="title">{{title}}</h1>
+
+      <a class="button is-info" href="[[=URL('index')]]">
+        <span><i class="fa fa-backward fw"></i> Back </span>
+      </a>
+      <br>
+      <div class="card">
+        <div class="card-image">
+          <figure class="image 128x128">
+            <img :src="poster" />
+          </figure>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="column is-3">
+      <br /> <br />
+      <button @click="add_show()" class="button is-primary">
+        <span><i class="fa fa-plus fw"></i> Add Anime to WatchList</span>
+      </button>
+      <article class="message is-dark">
+        <br>
+        <div class="message-header">
+          <p> <b> Synopsis </b></p>
+        </div>
+        <div class="message-body">
+          <p>{{synopsis}}</p>
+        </div>
+      </article>
+      <i class="fa fa-caret-square-o-right has-text-success"></i> Episodes: {{episode_num}}
+      <br>
+      <i class="fa fa-calendar has-text-info"></i> Air Date: {{start_date}} / {{end_date}}
+      <br>
+      <i class="fa fa-youtube-play has-text-danger"></i> Trailer:
+      <br>
+      <iframe width="100%" height="39%" :src="trailer" allowfullscreen></iframe>
+    </div>
+
+    <div class="column is-4">
+      <h2 class="title">
+        <i class="fa fa-comments-o"></i>
+        Comments
+      </h2>
+        <!-- Allow users to view other posts and add posts for each anime -->
+        <div>
+          <br />
+          <button @click="set_add_status(true)" class="button is-primary">
+            <span class="icon"><i class="fa fa-plus"></i></span>
+            <span>Add Comment</span>
+          </button>
+        </div>
+
+        <!-- Form to add comments -->
+        <div v-if="add_mode" class="container block">
+          <div class="title">Add Comment</div>
+          <div class="form">
+
+            <div class="field">
+              <div class="control">
+                <input type="text" v-model="add_text" class="input" placeholder="Enter new comment here">
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="control">
+                <input type="submit" @click="add_comment" value="Post Comment" class="button is-primary">
+                <input type="submit" @click="set_add_status(false)" value="Cancel" class="button is-warning">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Posts go here -->
+
+        <div id="comments" class="container">
+          <br />
+          <div v-for="c in comments.slice().reverse()" class="block box">
+            {{c.text}}
+            <br />
+            <p style="color:darkgray">{{c.user}}</p>
+
+            <!--add like buttons here-->
+
+            <div>
+              <!-- <span @mouseout="like_out(p._idx)">
+
+                <span class="has-text-info"> -->
+              <!--if liked, button is filled-->
+              <!-- <i v-if="p.liked != 1" @mouseover="like_over(p._idx)" @click="set_like(p._idx)"
+                    class="fa fa-thumbs-o-up fa-2x" aria-hidden="true"></i>
+                  <i v-if="p.liked == 1" @mouseover="like_over(p._idx)" @click="set_like(p._idx)"
+                    class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>
+                </span>
+
+
+                <span class="has-text-info">
+
+
+                  <i v-if="p.disliked != 1" @mouseover="dislike_over(p._idx)" @click="set_dislike(p._idx)"
+                    class="fa fa-thumbs-o-down fa-2x" aria-hidden="true"></i>
+                  <i v-if="p.disliked == 1" @mouseover="dislike_over(p._idx)" @click="set_dislike(p._idx)"
+                    class="fa fa-thumbs-down fa-2x" aria-hidden="true"></i>
+                </span>
+              </span> -->
+
+
+              <span class="has-text-danger is-pulled-right">
+                <span v-if="c.user_email === '[[=user_email]]'" @click="delete_comment(c._idx)">
+                  <i class="fa fa-trash fa-fw fa-2x"></i>
+                </span>
+              </span>
+            </div>
+
+          </div>
+        </div>
+
+
+
+    </div>
+  </div>
+
+</div>
+
+[[block page_scripts]]
+<!-- Loads the index-specific js for Vue -->
+<script>
+  let my_callback_url = "[[=XML(my_callback_url)]]";
+  let get_search_url = "[[=XML(get_search_url)]]";
+  let add_to_list_url = "[[=XML(add_to_list_url)]]";
+  let load_comments_url = "[[=XML(load_comments_url)]]";
+  let add_comment_url = "[[=XML(add_comment_url)]]";
+  let delete_comment_url = "[[=XML(delete_comment_url)]]";
+</script>
+<script src="js/anime_search.js"></script>
+[[end]]

@@ -54,15 +54,20 @@
         <div class="section">
             [[for res in search:]]
             <div>
-                [[=res['name'] ]]
+                <!--[[=res['id'] ]]-->
+                    [[=res['name'] ]]
+                    <a class="button is-primary" href="[[=URL('go_to_search', res['id'])]]">
+                        page
+                    </a>
+                <img src="[[=res['poster'] ]]">
             </div>
             [[pass]]
         </div>
-        <div v-for="res in results">
+        <!--<div v-for="res in results">
             <div>
                 {{res.name}}
             </div>
-        </div>
+        </div>-->
     </section>
 
         <!--<div v-for="res in results">
@@ -86,6 +91,8 @@
     let add_search_url = "[[=XML(add_search_url)]]";
     let add_anime_url = "[[=XML(add_anime_url)]]";
     let delete_search_url = "[[=XML(delete_search_url)]]";
+    let refresh_search_url = "[[=XML(refresh_search_url)]]";
+    let go_to_search_url = "[[=XML(go_to_search_url)]]";
 </script>
 <script src="js/browse.js"></script>
 [[end]]
