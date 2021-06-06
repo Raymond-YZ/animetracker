@@ -12,6 +12,7 @@ let init = (app) => {
         // Complete as you see fit.
         show: "",
         results: [],
+        search_status: false,
     };
 
     app.enumerate = (a) => {
@@ -21,7 +22,16 @@ let init = (app) => {
         return a;
     };
 
+    app.set_search_status = function (status) {
+        app.vue.search_status = status;
+    };
+
+    app.delete_search = function () {
+        axios.get(delete_search_url);
+    };
+
     app.get_search = function () {
+        app.delete_search();
         app.vue.results = [];
         let rep = app.vue.show.replace(/ /g, "%20");
         console.log("https://kitsu.io/api/edge/anime?filter[text]=" + rep);
@@ -44,7 +54,12 @@ let init = (app) => {
                     link: link["self"],
                     name: attributes["canonicalTitle"],
                     poster: posterAttr["small"],
-                })
+                });
+                axios.post(add_search_url, {
+                    link: link["self"],
+                    name: attributes["canonicalTitle"],
+                    poster: posterAttr["small"],
+                });
             }
         });
     };
@@ -52,6 +67,7 @@ let init = (app) => {
     // This contains all the methods.
     app.methods = {
         // Complete as you see fit.
+        set_search_status: app.set_search_status,
         get_search: app.get_search,
     };
 
@@ -66,8 +82,7 @@ let init = (app) => {
     app.init = () => {
         // Put here any initialization code.
         // Typically this is a server GET call to load the data.
-    };
-
+    }
     // Call to the initializer.
     app.init();
 };
