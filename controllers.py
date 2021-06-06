@@ -45,6 +45,8 @@ def browse():
         add_search_url = URL('add_search', signer=url_signer),
         add_anime_url = URL('add_anime', signer=url_signer),
         delete_search_url = URL('delete_search', signer=url_signer),
+        refresh_search_url = URL('refresh_search', signer=url_signer),
+        go_to_search_url = URL('go_to_search', signer=url_signer),
         url_signer = url_signer,
         rows=rows,
         search=search,
@@ -57,20 +59,20 @@ def delete_search():
     db(db.search_results).delete()
     return "ok"
 
-@action('go_to_search')
+@action('go_to_search/<anime_id:int>')
 @action.uses(db, auth)
-def go_to_anime(anime_id=None):
+def go_to_search(anime_id=None):
     assert anime_id is not None
     redirect(URL('anime_search', anime_id))
     return "ok"
 
-@action('anime_search')
+@action('anime_search/<anime_id:int>')
 @action.uses(db, auth, 'anime_search.html')
-def anime_page(anime_id=None):
+def anime_search(anime_id=None):
     assert anime_id is not None
     return dict(
         my_callback_url = URL('my_callback', signer=url_signer),
-        get_anime_url = URL('get_search', anime_id, signer=url_signer),
+        get_search_url = URL('get_search', anime_id, signer=url_signer),
         load_comments_url = URL('load_comments', signer=url_signer),
         add_comment_url = URL('add_comment', signer=url_signer),
         delete_comment_url = URL('delete_comment', signer=url_signer),
@@ -79,9 +81,9 @@ def anime_page(anime_id=None):
         url_signer=url_signer,
     )
 
-@action('get_search')
+@action('get_search/<anime_id:int>')
 @action.uses(db, auth)
-def get_anime(anime_id=None):
+def get_search(anime_id=None):
     assert anime_id is not None
     show = db(db.search_results.id == anime_id).select().first()
     return dict(show=show['link'])
@@ -145,7 +147,7 @@ def load_list():
     show_list = db(db.list.user == get_user_email()).select().as_list()
     return dict(show_list=show_list)
 
-@action('go_to_anime')
+@action('go_to_anime/<anime_id:int>')
 @action.uses(db, auth)
 def go_to_anime(anime_id=None):
     assert anime_id is not None
@@ -170,7 +172,7 @@ def delete_show():
     db((db.list.user == email) & (db.list.anime_name == name)).delete()
     return "ok"
 
-@action('anime_page')
+@action('anime_page/<anime_id:int>')
 @action.uses(db, auth, 'anime_page.html')
 def anime_page(anime_id=None):
     assert anime_id is not None
@@ -185,7 +187,7 @@ def anime_page(anime_id=None):
         url_signer=url_signer,
     )
 
-@action('get_anime')
+@action('get_anime/<anime_id:int>')
 @action.uses(db, auth)
 def get_anime(anime_id=None):
     assert anime_id is not None
