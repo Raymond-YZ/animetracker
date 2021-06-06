@@ -34,8 +34,8 @@ let init = (app) => {
         app.delete_search();
         app.vue.results = [];
         let rep = app.vue.show.replace(/ /g, "%20");
-        console.log("https://kitsu.io/api/edge/anime?filter[text]=" + rep);
-        fetch("https://kitsu.io/api/edge/anime?filter[text]=" + rep, {
+        console.log("https://kitsu.io/api/edge/anime?filter[text]=" + rep + "&page[limit]=5&page[offset]=0");
+        fetch("https://kitsu.io/api/edge/anime?filter[text]=" + rep + "&page[limit]=5&page[offset]=0", {
             "method": "GET",
             "headers": {
                 "Accept": "application/vnd.api+json",
@@ -55,12 +55,14 @@ let init = (app) => {
                     name: attributes["canonicalTitle"],
                     poster: posterAttr["small"],
                 });
+                console.log(attributes["canonicalTitle"]);
                 axios.post(add_search_url, {
                     link: link["self"],
                     name: attributes["canonicalTitle"],
                     poster: posterAttr["small"],
                 });
             }
+            location.reload();
         });
     };
 
@@ -82,6 +84,7 @@ let init = (app) => {
     app.init = () => {
         // Put here any initialization code.
         // Typically this is a server GET call to load the data.
+
     }
     // Call to the initializer.
     app.init();
