@@ -1,0 +1,74 @@
+timestamp: 2021-06-06T19:05:06.128325
+CREATE TABLE "py4web_session"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "rkey" CHAR(512),
+    "rvalue" TEXT,
+    "expiration" INTEGER,
+    "created_on" TIMESTAMP,
+    "expires_on" TIMESTAMP
+);
+success!
+timestamp: 2021-06-06T19:05:06.143946
+CREATE TABLE "auth_user"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "email" CHAR(512) UNIQUE,
+    "password" CHAR(512),
+    "first_name" CHAR(512),
+    "last_name" CHAR(512),
+    "sso_id" CHAR(512),
+    "action_token" CHAR(512),
+    "last_password_change" TIMESTAMP,
+    "past_passwords_hash" TEXT
+);
+success!
+timestamp: 2021-06-06T19:05:06.159570
+CREATE TABLE "auth_user_tag_groups"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "path" CHAR(512),
+    "record_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2021-06-06T19:05:06.268946
+CREATE TABLE "profiles"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "username" CHAR(512),
+    "user_email" CHAR(512),
+    "thumbnail" TEXT,
+    "description" TEXT
+);
+success!
+timestamp: 2021-06-06T19:05:06.284539
+CREATE TABLE "list"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user" CHAR(512),
+    "anime_name" CHAR(512),
+    "episodes_watched" CHAR(512),
+    "episode_num" CHAR(512),
+    "poster" CHAR(512)
+);
+success!
+timestamp: 2021-06-06T19:05:06.284539
+CREATE TABLE "anime_shows"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "link" CHAR(512),
+    "name" CHAR(512),
+    "poster" CHAR(512)
+);
+success!
+timestamp: 2021-06-06T19:05:06.284539
+CREATE TABLE "search_results"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "link" CHAR(512),
+    "name" CHAR(512),
+    "poster" CHAR(512)
+);
+success!
+timestamp: 2021-06-06T19:05:06.300159
+CREATE TABLE "comment"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "show" CHAR(512),
+    "text" CHAR(512),
+    "user" CHAR(512),
+    "user_email" CHAR(512)
+);
+success!
