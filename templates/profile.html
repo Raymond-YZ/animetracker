@@ -84,7 +84,7 @@
 				</tr>
 				<tr v-for="show in shows">
 					<td><figure class="image is-2by3"><img :src="show.poster"></img></figure></td>
-					<td>{{show.anime_name}}</td>	
+					<td><a href="">{{show.anime_name}}</a></td>	
 					<td>{{show.episodes_watched}}</td>
 					<td v-if="show.episode_num">{{show.episode_num}}</td>
 					<td v-if="!show.episode_num">Ongoing</td>
