@@ -284,18 +284,6 @@ def add_search():
     return "ok"
 
 
-@action('edit_list/<anime_id:int>', method =["GET", "POST"])
-@action.uses(db, session, auth.user, 'edit_list.html')
-def edit_list(anime_id = None):
-    assert anime_id is not None
-    #bird = db(db.bird.id == anime_id).select().first()
-    anime = db.list[anime_id]
-    if anime is None:
-        redirect(URL('profile'))
-    form = Form(db.list, record = anime, csrf_session = session, formstyle = FormStyleBulma)
-    if form.accepted:
-        redirect(URL('profile'))
-    return dict(form = form)
 
 
 @action('delete_row/<anime_id:int')
