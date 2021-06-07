@@ -32,30 +32,43 @@
                 </div>
             </div>
         </div>
-    </section>
 
+        <br>
+
+        <!--<div v-if="search_status">
+            <div v-for="res in results">
+                <div class="card">
+                    <figure class="card-image">
+                        <div class="image is=128x128">
+                            <img :src="res.poster">
+                        </div>
+                    </figure>
+                    <div class="media-content">
+                        <strong>placeholderchars {{res.name}}</strong>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>-->
 
         <div class="section">
             [[for res in search:]]
             <div>
-                <div class="card">
-                  <figure class="card-image">
-                    <div class="image is-128x128">
-                        <img src="[[=res['poster'] ]]">
-                    </div>
-                </figure>
-                <div class="media-content">
-                    <a  href="[[=URL('go_to_search', res['id'])]]">
-                        <strong>placeholderchars             [[=res['name'] ]]
-                        </strong>
+                <!--[[=res['id'] ]]-->
+                    [[=res['name'] ]]
+                    <a class="button is-primary" href="[[=URL('go_to_search', res['id'])]]">
+                        page
                     </a>
-                    <br>
-                </div>
-                [[pass]]
+                <img src="[[=res['poster'] ]]">
             </div>
+            [[pass]]
         </div>
-    </div>
-        </section>
+        <!--<div v-for="res in results">
+            <div>
+                {{res.name}}
+            </div>
+        </div>-->
+    </section>
 
         <!--<div v-for="res in results">
             <div class="card">
@@ -76,7 +89,6 @@
 <script>
     let my_callback_url = "[[=XML(my_callback_url)]]";
     let add_search_url = "[[=XML(add_search_url)]]";
-    let add_anime_url = "[[=XML(add_anime_url)]]";
     let delete_search_url = "[[=XML(delete_search_url)]]";
     let refresh_search_url = "[[=XML(refresh_search_url)]]";
     let go_to_search_url = "[[=XML(go_to_search_url)]]";
