@@ -4,42 +4,30 @@
 [v-cloak] {
   display: none;
 }
+
+.container{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+  grid-gap: 0.3em;
+}
+
+.card{
+  height: max-content;
+}
+
 </style>
 
 
 <div class="section" id="vue-target">
   <!-- Put here your Vue.js template -->
-  <h1 class="title">Anime Tracker</h1>
-
-  [[if globals().get('user'):]]
-  <h2>Click on the top anime below to add to your list!
-    <br />
-  You can add reviews for each title so others can see!</h2>
-  <br />
-  [[else:]]
-  <h2>Wanna see how far down the rabbit hole you've come?
-    <br />
-  Track your watched anime here and see what your fellow weebs have to say!</h2>
-  <br />
-  [[pass]]
-  <!-- [[if globals().get('user'):]]
-  <a class="button is-primary" href="[[=URL('go_to_profile', signer=url_signer)]]">
-    <span>Profile</span>
-  </a>
-  [[else:]]
-  <a class="button is-link" href="[[=URL('auth/plugin/oauth2google/login', vars=dict(next='../index'))]]">Log In</a>
-  [[pass]] -->
-
-
-  
-
 
   <h3 class="title">Top Anime Spring 2021</h3>
 
-  <a class="button is-warning" href="[[=URL('browse')]]">Browse</a>
+
+  
   <br />
-  <div class="columns">
-    <div class="column is-2 is-offset-1">
+  
+  <div class="container">
 
       [[for row in rows:]]
       <div class="card is-horizontal">
@@ -56,8 +44,8 @@
     </div>
     <br>
     [[pass]]
-  </div>    
-</div>
+ 
+ </div>
 
 </div>
 

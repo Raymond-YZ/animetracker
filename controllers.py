@@ -30,8 +30,63 @@ from yatl.helpers import A
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 from py4web.utils.url_signer import URLSigner
 from .models import get_user_email
-
+from py4web.utils.form import Form, FormStyleBulma
 url_signer = URLSigner(session)
+
+@action('browse')
+@action.uses(db, auth, "browse.html")
+def browse():
+    rows = db(db.anime_shows).select()
+    assert rows is not None
+    search = db(db.search_results).select()
+    assert search is not None
+    return dict(
+        my_callback_url = URL('my_callback', signer=url_signer),
+        add_search_url = URL('add_search', signer=url_signer),
+        add_anime_url = URL('add_anime', signer=url_signer),
+        delete_search_url = URL('delete_search', signer=url_signer),
+        refresh_search_url = URL('refresh_search', signer=url_signer),
+        go_to_search_url = URL('go_to_search', signer=url_signer),
+        url_signer = url_signer,
+        rows=rows,
+        search=search,
+    )
+    return "ok"
+
+@action('delete_search')
+@action.uses(db, auth)
+def delete_search():
+    db(db.search_results).delete()
+    return "ok"
+
+@action('go_to_search/<anime_id:int>')
+@action.uses(db, auth)
+def go_to_search(anime_id=None):
+    assert anime_id is not None
+    redirect(URL('anime_search', anime_id))
+    return "ok"
+
+@action('anime_search/<anime_id:int>')
+@action.uses(db, auth, 'anime_search.html')
+def anime_search(anime_id=None):
+    assert anime_id is not None
+    return dict(
+        my_callback_url = URL('my_callback', signer=url_signer),
+        get_search_url = URL('get_search', anime_id, signer=url_signer),
+        load_comments_url = URL('load_comments', signer=url_signer),
+        add_comment_url = URL('add_comment', signer=url_signer),
+        delete_comment_url = URL('delete_comment', signer=url_signer),
+        add_to_list_url=URL('add_to_list', signer=url_signer),
+        user_email=get_user_email(),
+        url_signer=url_signer,
+    )
+
+@action('get_search/<anime_id:int>')
+@action.uses(db, auth)
+def get_search(anime_id=None):
+    assert anime_id is not None
+    show = db(db.search_results.id == anime_id).select().first()
+    return dict(show=show['link'])
 
 @action('index')
 @action.uses(db, auth, 'index.html')
@@ -68,14 +123,18 @@ def add_anime():
     return "ok"
 
 @action('profile')
-@action.uses(db, auth,'profile.html')
+@action.uses(db, auth, auth.user, 'profile.html')
 def profile():
+    r = db(db.auth_user.email == get_user_email()).select().first()
+    shows = db(db.list.user == get_user_email()).select()
     return dict(
         my_callback_url = URL('my_callback', signer=url_signer),
         file_upload_url = URL('file_upload', signer=url_signer),
         load_list_url=URL('load_list', signer=url_signer),
         delete_show_url = URL('delete_show', signer=url_signer),
         user_email=get_user_email(),
+        shows = shows,
+        user = r,
         url_signer=url_signer,
     )
 
@@ -193,11 +252,38 @@ def file_upload():
     print("Content:", uploaded_file.read())
     return "ok"
 
-@action('browse')
-@action.uses(db, auth, "browse.html")
-def browse():
-    return dict(
-        my_callback_url = URL('my_callback', signer=url_signer),
-        url_signer = url_signer
+@action('add_search', method="POST")
+@action.uses(db, auth)
+def add_search():
+    link=request.json.get("link")
+    name=request.json.get("name")
+    poster = request.json.get("poster")
+    db.search_results.update_or_insert(
+        (db.search_results.link == link),
+        link=link,
+        name=name,
+        poster=poster,
     )
+    return "ok"
 
+
+@action('edit_list/<anime_id:int>', method =["GET", "POST"])
+@action.uses(db, session, auth.user, 'edit_list.html')
+def edit_list(anime_id = None):
+    assert anime_id is not None
+    #bird = db(db.bird.id == anime_id).select().first()
+    anime = db.list[anime_id]
+    if anime is None:
+        redirect(URL('profile'))
+    form = Form(db.list, record = anime, csrf_session = session, formstyle = FormStyleBulma)
+    if form.accepted:
+        redirect(URL('profile'))
+    return dict(form = form)
+
+
+@action('delete_row/<anime_id:int')
+@action.uses(db, session, auth.user)
+def delete_row(anime_id=None):
+    assert anime_id is not None
+    db(db.list.id == anime_id).delete()
+    redirect(URL('profile'))

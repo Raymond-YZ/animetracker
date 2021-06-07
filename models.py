@@ -47,9 +47,19 @@ db.define_table(
     Field('poster'),
 )
 
+db.define_table(
+    'search_results',
+    Field('link'),
+    Field('name'),
+    Field('poster'),
+)
+
 db.define_table('comment',
                 Field('text'),
                 Field('user'),
                 Field('user_email', default = get_user_email))
+
+db.list.anime_name.writable = False
+db.list.user.readable = db.list.anime_name.writable = False
 
 db.commit()
