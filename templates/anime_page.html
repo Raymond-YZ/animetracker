@@ -30,9 +30,9 @@
     <div v-if="cover == 'null'">
     </div>
     <div v-else>
-    <img class="hero-background is-transparent is-info" :src="cover" />
-    <div class="hero-body">
-    </div>
+      <img class="hero-background is-transparent is-info" :src="cover" />
+      <div class="hero-body">
+      </div>
     </div>
   </div>
 
@@ -54,10 +54,9 @@
           </figure>
         </div>
       </div>
-
-
     </div>
-    <div class="column is-3">
+
+    <div class="column is-4">
       <br /> <br />
       <button @click="add_show()" class="button is-primary">
         <span><i class="fa fa-plus fw"></i> Add to List</span>
@@ -76,8 +75,8 @@
       <i class="fa fa-calendar has-text-info"></i> Air Date: {{start_date}} / {{end_date}}
       <br>
       <i class="fa fa-ticket has-text-warning"></i> Rating: {{rating}}
-      <br>
-      <i class="fa fa-film has-text-black"></i> Show Type: {{showtype}}
+      <br
+      >      <i class="fa fa-film has-text-black"></i> Show Type: {{showtype}}
       <br>
       <i class="fa fa-youtube-play has-text-danger"></i> Trailer:
       <br>
