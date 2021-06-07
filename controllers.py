@@ -218,11 +218,13 @@ def add_to_list():
     user = db(db.auth_user.email == get_user_email()).select().first()
     title = request.json.get("title")
     episode_num = request.json.get("episode_num")
+    showtype = request.json.get("showtype")
     poster = request.json.get("poster")
     db.list.update_or_insert(
         ((db.list.user == get_user_email()) &
          (db.list.anime_name == title)),
         anime_name = title,
+        showtype = showtype,
         episode_num = episode_num,
         poster = poster,
     )

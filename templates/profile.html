@@ -23,6 +23,7 @@
 				<tr>
 					<th></th>
 					<th>Anime Title</th>
+					<th>Show Type</th>
 					<th>Episodes Watched</th>
 					<th>Total Episodes</th>
 					<th></th>
@@ -34,6 +35,7 @@
 						<br>
 					</td>
 					<td ><a>{{show.anime_name}}</a></td>
+					<td>{{show.showtype}}</td>
 					<td v-for="fn in ['episodes_watched']"  >
 						<div class="control" :class="{'is-loading': show._state[fn] === 'pending'}">
 							<input type="text" class="input" v-model="show[fn]" :class="{

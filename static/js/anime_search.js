@@ -23,6 +23,7 @@ let init = (app) => {
         show: "",
         cover: "",
         rating: "",
+        showtype: "",
     };
 
     app.enumerate = (a) => {
@@ -36,6 +37,7 @@ let init = (app) => {
         axios.post(add_to_list_url, {
             title: app.vue.title,
             episode_num: app.vue.episode_num,
+            showtype: app.vue.showtype,
             poster: app.vue.poster,
         });
     }
@@ -139,6 +141,7 @@ let init = (app) => {
                 app.vue.start_date = attributes["startDate"];
                 app.vue.end_date = attributes["endDate"];
                 app.vue.rating = attributes["ageRating"];
+                app.vue.showtype = attributes["showType"];
                 app.vue.trailer = "https://www.youtube.com/embed/" + attributes["youtubeVideoId"];
             });
         });

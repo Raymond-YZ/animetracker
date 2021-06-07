@@ -37,6 +37,7 @@ db.define_table(
     Field('anime_name'),
     Field('episodes_watched', 'integer', default = 0, requires = IS_INT_IN_RANGE(0, 1e6)),
     Field('episode_num', 'integer',default=0),
+    Field('showtype'),
     Field('poster'),
 )
 

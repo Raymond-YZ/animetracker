@@ -35,6 +35,7 @@ let init = (app) => {
 
     app.stop_edit = function (a_idx, fn) {
         let show = app.vue.shows[a_idx];
+        console.log(show);
         if (show._state[fn] === 'edit') {
             show._state[fn] = 'pending';
             if (show[fn] <= show["episode_num"]) {
