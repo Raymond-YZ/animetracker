@@ -45,6 +45,7 @@ db.define_table(
     Field('link'),
     Field('name'),
     Field('poster'),
+    Field('cover'),
 )
 
 db.define_table(
