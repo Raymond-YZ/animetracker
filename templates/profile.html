@@ -2,11 +2,11 @@
 
 <div class="section" id="vue-target">
 	<div class="section">
-		<h1 class="title">[[=user.first_name]]'s Profile</h1>
+		
 		<!-- <a class="button is-info" href="[[=URL('go_to_list', signer=url_signer)]]">
 			<span>List</span>
 		</a> -->
-		<div class="columns">
+		<!-- <div class="columns">
 			<div class="column is-2 is-offset-2">
 				<div class="card">
 					<div class="card-image">
@@ -17,7 +17,7 @@
 						</figure>
 					</div>
 				</div>
-				<!-- NEw code from lecture -->
+				NEw code from lecture
 				<div class="section" id="vue-target" v-cloak>
 					<div v-if="!selection_done" class="field has-addons block">
 						<p class="control">
@@ -53,7 +53,7 @@
 						<i class="fa fa-check"></i> Uploaded!
 					</div>
 				</div>
-				<!-- upload code ends here -->
+				
 				<b>
 					<i class="fa fa-user"> </i>
 					Gender:
@@ -69,11 +69,11 @@
 			<div class="column is-4">
 				<b> Description </b>
 			</div>
-		</div>
+		</div>-->
 
 
 		<div class="container block">
-			<h1 class="title has-text-centered">Anime List</h1>
+			<h1 class="title has-text-centered">[[=user.first_name]]'s Anime List</h1>
 			<table class="table is-striped is-fullwidth ">
 				<tr>
 					<th></th>
@@ -84,7 +84,7 @@
 				</tr>
 				<tr v-for="show in shows">
 					<td><figure class="image is-2by3"><img :src="show.poster"></img></figure></td>
-					<td><a href="">{{show.anime_name}}</a></td>	
+					<td><a>{{show.anime_name}}</a></td>	
 					<td>{{show.episodes_watched}}</td>
 					<td v-if="show.episode_num">{{show.episode_num}}</td>
 					<td v-if="!show.episode_num">Ongoing</td>
