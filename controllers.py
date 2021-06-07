@@ -273,11 +273,13 @@ def add_search():
     link=request.json.get("link")
     name=request.json.get("name")
     poster = request.json.get("poster")
+    cover = request.json.get("cover")
     db.search_results.update_or_insert(
         (db.search_results.link == link),
         link=link,
         name=name,
         poster=poster,
+        cover=cover,
     )
     return "ok"
 

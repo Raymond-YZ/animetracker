@@ -50,6 +50,13 @@ let init = (app) => {
                 link = anime_show["links"];
                 attributes = anime_show["attributes"];
                 posterAttr = attributes["posterImage"];
+                coverAttr = attributes["coverImage"];
+                if (coverAttr != null){
+                    cover = coverAttr["small"];
+                }
+                else{
+                    cover = "null";
+                }
                 app.vue.results.push({
                     link: link["self"],
                     name: attributes["canonicalTitle"],
@@ -60,6 +67,7 @@ let init = (app) => {
                     link: link["self"],
                     name: attributes["canonicalTitle"],
                     poster: posterAttr["small"],
+                    cover: cover,
                 });
             }
             location.reload();

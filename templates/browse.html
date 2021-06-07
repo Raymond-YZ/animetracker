@@ -1,9 +1,9 @@
 [[extend 'layout.html']]
 
 <style>
-    [v-cloak] {
-        display: none;
-    }
+[v-cloak] {
+    display: none;
+}
 </style>
 
 
@@ -16,7 +16,7 @@
             <span><i class="fa fa-backward fw"></i> Back </span>
         </a>
     </div>
-    <section class="section container">
+    <section class="section">
         <div class="form">
             <div class="field">
                 <div class="control has-icons-left">
@@ -33,6 +33,7 @@
             </div>
         </div>
 
+<<<<<<< HEAD
         
     [[for res in search:]]
         <div class="section container">
@@ -51,28 +52,24 @@
                 </a>
                 <br>
 
+=======
+        <br>
+
+        <div class="section">
+            [[for res in search:]]
+            <div>
+                <!--[[=res['id'] ]]-->
+                    [[=res['name'] ]]
+                    <a class="button is-primary" href="[[=URL('go_to_search', res['id'])]]">
+                        page
+                    </a>
+                <img src="[[=res['poster'] ]]">
+>>>>>>> d9fc5b1369e0b13d77ef3bcafe07784f14b376dd
             </div>
     
         </div>
-
-    </div>
-    [[pass]]
-</div>
-</section>
-
-<!--<div v-for="res in results">
-            <div class="card">
-              <figure class="card-image">
-                <div class="image is-128x128">
-                  <img :src="res.poster">
-              </div>
-          </figure>
-          <div class="media-content">
-            <strong>placeholderchars  {{res.name}}</strong>
-            <br>
-        </div>
-    </div>-->
-<br>
+    </section>
+    <br>
 </div>
 
 [[block page_scripts]]
