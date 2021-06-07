@@ -88,8 +88,10 @@
 
         <div id="comments" class="container">
           <br />
-          <div v-for="c in comments.slice().reverse()" class="block box">
+          <div v-for="c in comments.slice().reverse()">
+            <div v-if="c.show == show">
             {{c.text}}
+
             <br />
             <p style="color:darkgray">{{c.user}}</p>
             
@@ -124,7 +126,7 @@
                 </span>
               </span>
             </div>
-
+            </div>
           </div>
         </div>
 

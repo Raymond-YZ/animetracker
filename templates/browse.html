@@ -32,7 +32,7 @@
                 </div>
             </div>
         </div>
-    </section>
+
 
     [[for res in search:]]
     <div class="section container">
@@ -50,9 +50,11 @@
                     </strong>
                 </a>
                 <br>
+
             </div>
+            [[pass]]
         </div>
- 
+
     </div>
     [[pass]]
 </div>
@@ -77,7 +79,6 @@
 <script>
     let my_callback_url = "[[=XML(my_callback_url)]]";
     let add_search_url = "[[=XML(add_search_url)]]";
-    let add_anime_url = "[[=XML(add_anime_url)]]";
     let delete_search_url = "[[=XML(delete_search_url)]]";
     let refresh_search_url = "[[=XML(refresh_search_url)]]";
     let go_to_search_url = "[[=XML(go_to_search_url)]]";
