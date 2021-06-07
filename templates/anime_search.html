@@ -1,13 +1,41 @@
 [[extend 'layout.html']]
 
 <style>
-  [v-cloak] {
-    display: none;
-  }
+[v-cloak] {
+  display: none;
+}
+
+.hero.has-background {
+  position: relative;
+  overflow: hidden;
+}
+.hero-background {
+  position: absolute;
+  object-fit: cover;
+  object-position: center center;
+  width: 100%;
+  height: 100%;
+  filter: blur(0.5px);
+}
+.hero-background.is-transparent {
+  opacity: 1.0;
+}
+
 </style>
 
 
 <div class="section" id="vue-target">
+
+  <div class="hero  is-medium has-background">
+    <div v-if="cover == 'null'">
+    </div>
+    <div v-else>
+    <img class="hero-background is-transparent is-info" :src="cover" />
+    <div class="hero-body">
+    </div>
+    </div>
+  </div>
+
 
   <div class="columns">
     <div class="column is-3 is-offset-1">
@@ -55,41 +83,41 @@
         <i class="fa fa-comments-o"></i>
         Comments
       </h2>
-        <!-- Allow users to view other posts and add posts for each anime -->
-        <div>
-          <br />
-          <button @click="set_add_status(true)" class="button is-primary">
-            <span class="icon"><i class="fa fa-plus"></i></span>
-            <span>Add Comment</span>
-          </button>
-        </div>
+      <!-- Allow users to view other posts and add posts for each anime -->
+      <div>
+        <br />
+        <button @click="set_add_status(true)" class="button is-primary">
+          <span class="icon"><i class="fa fa-plus"></i></span>
+          <span>Add Comment</span>
+        </button>
+      </div>
 
-        <!-- Form to add comments -->
-        <div v-if="add_mode" class="container block">
-          <div class="title">Add Comment</div>
-          <div class="form">
+      <!-- Form to add comments -->
+      <div v-if="add_mode" class="container block">
+        <div class="title">Add Comment</div>
+        <div class="form">
 
-            <div class="field">
-              <div class="control">
-                <input type="text" v-model="add_text" class="input" placeholder="Enter new comment here">
-              </div>
+          <div class="field">
+            <div class="control">
+              <input type="text" v-model="add_text" class="input" placeholder="Enter new comment here">
             </div>
+          </div>
 
-            <div class="field">
-              <div class="control">
-                <input type="submit" @click="add_comment" value="Post Comment" class="button is-primary">
-                <input type="submit" @click="set_add_status(false)" value="Cancel" class="button is-warning">
-              </div>
+          <div class="field">
+            <div class="control">
+              <input type="submit" @click="add_comment" value="Post Comment" class="button is-primary">
+              <input type="submit" @click="set_add_status(false)" value="Cancel" class="button is-warning">
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Posts go here -->
+      <!-- Posts go here -->
 
-        <div id="comments" class="container">
-          <br />
-          <div v-for="c in comments.slice().reverse()">
-            <div v-if="c.show == show">
+      <div id="comments" class="container">
+        <br />
+        <div v-for="c in comments.slice().reverse()">
+          <div v-if="c.show == show">
             {{c.text}}
             <br />
             <p style="color:darkgray">{{c.user}}</p>
@@ -100,7 +128,7 @@
               <!-- <span @mouseout="like_out(p._idx)">
 
                 <span class="has-text-info"> -->
-              <!--if liked, button is filled-->
+                  <!--if liked, button is filled-->
               <!-- <i v-if="p.liked != 1" @mouseover="like_over(p._idx)" @click="set_like(p._idx)"
                     class="fa fa-thumbs-o-up fa-2x" aria-hidden="true"></i>
                   <i v-if="p.liked == 1" @mouseover="like_over(p._idx)" @click="set_like(p._idx)"
@@ -125,9 +153,9 @@
                 </span>
               </span>
             </div>
-            </div>
           </div>
         </div>
+      </div>
 
 
 

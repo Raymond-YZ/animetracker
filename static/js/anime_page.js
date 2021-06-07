@@ -21,6 +21,7 @@ let init = (app) => {
         add_mode: false,
         add_text: "",
         show: "",
+        cover: "",
     };
 
     app.enumerate = (a) => {
@@ -98,30 +99,6 @@ let init = (app) => {
 
     // And this initializes it.
     app.init = () => {
-        // Put here any initialization code.
-        // Typically this is a server GET call to load the data.
-        //fetch("https://kitsu.io/api/edge/anime", {
-        //    "method": "GET",
-        //    "headers": {
-        //        "Accept": "application/vnd.api+json",
-        //        "Content-Type": "application/vnd.api+json"
-        //    }
-        //}).then(response => {
-        //    return response.json();
-        //}).then(function(data) {
-        //    first_array = data["data"];
-
-        //    first_dict = first_array[0];
-
-        //    attributes = first_dict["attributes"];
-
-        //    posterAttr = attributes["posterImage"];
-
-        //    app.vue.title = attributes["canonicalTitle"];
-        //    app.vue.poster = posterAttr["small"];
-        //    app.vue.episode_num = attributes["episodeCount"];
-        //    app.vue.synopsis = attributes["synopsis"];
-        //});
         axios.get(get_anime_url).then(function (response) {
             console.log(response.data.show);
             fetch(response.data.show, {
@@ -140,7 +117,14 @@ let init = (app) => {
                 links = first_dict["links"];
 
                 posterAttr = attributes["posterImage"];
-
+                coverAttr = attributes["coverImage"];
+                if (coverAttr != null) {
+                    app.vue.cover = coverAttr["small"];
+                }
+                else {
+                    app.vue.cover = "null";
+                }
+                console.log(app.vue.cover);
                 app.vue.show = links["self"];
                 app.vue.title = attributes["canonicalTitle"];
                 app.vue.poster = posterAttr["small"];
@@ -149,32 +133,15 @@ let init = (app) => {
                 app.vue.start_date = attributes["startDate"];
                 app.vue.end_date = attributes["endDate"];
                 app.vue.trailer = "https://www.youtube.com/embed/" + attributes["youtubeVideoId"];
+                
             });
         }).then(function () {
 
             axios.get(load_comments_url)
                 .then(function (response) {
-            //    app.complete(response.data.comments);
-                //for (i = 0; i < response.data.comments.length; i++){
-                //    if (app.vue.show == response.data.comments[i].show){
-                //        app.vue.comments.push(response.data.comments[i]);
-                //    }
-                //}
                     app.vue.comments = app.enumerate(response.data.comments);
                     console.log(app.vue.comments);
                     console.log(app.vue.show);
-            // })
-            // .then(() => {
-            //     for (let comment of app.vue.comments) {
-            //         axios.get(get_like_url, { params: { comment_id: comment.id} })
-            //             .then((result) => {
-            //                 post.liked = result.data.like;
-            //                 post.liked_display = result.data.like;
-            //                 post.disliked = result.data.dislike;
-            //                 post.disliked_display = result.data.dislike;
-                        
-            //             })
-            //     }
                 });
             });
     };
