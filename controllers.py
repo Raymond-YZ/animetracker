@@ -113,11 +113,13 @@ def add_anime():
     link=request.json.get("link")
     name=request.json.get("name")
     poster = request.json.get("poster")
+    cover = request.json.get("cover")
     db.anime_shows.update_or_insert(
         (db.anime_shows.link == link),
         link=link,
         name=name,
         poster=poster,
+        cover=cover,
     )
     return "ok"
 
