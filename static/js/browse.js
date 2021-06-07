@@ -18,7 +18,7 @@ let init = (app) => {
     app.enumerate = (a) => {
         // This adds an _idx field to each element of the array.
         let k = 0;
-        a.map((e) => {e._idx = k++;});
+        a.map((e) => { e._idx = k++; });
         return a;
     };
 
@@ -43,29 +43,38 @@ let init = (app) => {
             }
         }).then(response => {
             return response.json();
-        }).then(function(data) {
+        }).then(function (data) {
             data_array = data["data"];
             for (i = 0; i < data_array.length; i++) {
                 anime_show = data_array[i];
                 link = anime_show["links"];
                 attributes = anime_show["attributes"];
+                titles = attributes["titles"];
                 posterAttr = attributes["posterImage"];
                 coverAttr = attributes["coverImage"];
-                if (coverAttr != null){
+                if (coverAttr != null) {
                     cover = coverAttr["small"];
                 }
-                else{
+                else {
                     cover = "null";
                 }
+
+                if (titles["en"])
+                    anime_title = titles["en"];
+                else if (titles["en_us"])
+                    anime_title = titles["en_us"];
+                else
+                    anime_title = attributes["canonicalTitle"];
+
                 app.vue.results.push({
                     link: link["self"],
-                    name: attributes["canonicalTitle"],
+                    name: anime_title,
                     poster: posterAttr["small"],
                 });
-                console.log(attributes["canonicalTitle"]);
+               // console.log(attributes["canonicalTitle"]);
                 axios.post(add_search_url, {
                     link: link["self"],
-                    name: attributes["canonicalTitle"],
+                    name: anime_title,
                     poster: posterAttr["small"],
                     cover: cover,
                 });

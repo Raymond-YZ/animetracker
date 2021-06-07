@@ -22,6 +22,7 @@ let init = (app) => {
         add_text: "",
         show: "",
         cover: "",
+        rating: "",
     };
 
     app.enumerate = (a) => {
@@ -100,7 +101,7 @@ let init = (app) => {
     // And this initializes it.
     app.init = () => {
         axios.get(get_search_url).then(function (response) {
-            console.log(response.data.show);
+            console.log(response.data);
             fetch(response.data.show, {
             "method": "GET",
             "headers": {
@@ -108,14 +109,15 @@ let init = (app) => {
                 "Content-Type": "application/vnd.api+json"
                 }
             }).then(response => {
+                
                 return response.json();
             }).then(function(data) {
                 first_dict = data["data"];
-
+                console.log(data);
                 attributes = first_dict["attributes"];
 
                 links = first_dict["links"];
-
+                titles = attributes["titles"];
                 posterAttr = attributes["posterImage"];
                 coverAttr = attributes["coverImage"];
                 if (coverAttr != null) {
@@ -124,14 +126,19 @@ let init = (app) => {
                 else {
                     app.vue.cover = "null";
                 }
-                console.log(app.vue.cover);
                 app.vue.show = links["self"];
-                app.vue.title = attributes["canonicalTitle"];
+                if(titles["en"])
+                    app.vue.title = titles["en"];
+                else if (titles["en_us"])
+                    app.vue.title = titles["en_us"];
+                else
+                    app.vue.title = attributes["canonicalTitle"];
                 app.vue.poster = posterAttr["small"];
                 app.vue.episode_num = attributes["episodeCount"];
                 app.vue.synopsis = attributes["synopsis"];
                 app.vue.start_date = attributes["startDate"];
                 app.vue.end_date = attributes["endDate"];
+                app.vue.rating = attributes["ageRating"];
                 app.vue.trailer = "https://www.youtube.com/embed/" + attributes["youtubeVideoId"];
             });
         });

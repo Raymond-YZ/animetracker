@@ -36,6 +36,7 @@ let init = (app) => {
                 first_anime = first_array[i];
                 links = first_anime["links"];
                 attributes = first_anime["attributes"];
+                titles = attributes["titles"];
                 posterAttr = attributes["posterImage"];
                 coverAttr = attributes["coverImage"];
                 if (coverAttr != null){
@@ -44,12 +45,19 @@ let init = (app) => {
                 else {
                     cover = "null";
                 }
+
+                if (titles["en"])
+                    anime_title = titles["en"];
+                else if (titles["en_us"])
+                    anime_title = titles["en_us"];
+                else
+                    anime_title = attributes["canonicalTitle"];
                 //app.vue.anime.push({link: links["self"],
                 //                     name: attributes["canonicalTitle"],});
                 axios.post(add_anime_url,
                 {
                     link: links["self"],
-                    name: attributes["canonicalTitle"],
+                    name: anime_title,
                     poster: posterAttr["small"],
                     cover: cover,
                 });
@@ -79,7 +87,6 @@ let init = (app) => {
         //    app.vue.anime.pop();
         //}
         app.add_anime();
-        console.log("Hello");
     };
 
     // Call to the initializer.

@@ -22,12 +22,13 @@ let init = (app) => {
         add_text: "",
         show: "",
         cover: "",
+        rating: "",
     };
 
     app.enumerate = (a) => {
         // This adds an _idx field to each element of the array.
         let k = 0;
-        a.map((e) => {e._idx = k++;});
+        a.map((e) => { e._idx = k++; });
         return a;
     };
 
@@ -102,20 +103,20 @@ let init = (app) => {
         axios.get(get_anime_url).then(function (response) {
             console.log(response.data.show);
             fetch(response.data.show, {
-            "method": "GET",
-            "headers": {
-                "Accept": "application/vnd.api+json",
-                "Content-Type": "application/vnd.api+json"
+                "method": "GET",
+                "headers": {
+                    "Accept": "application/vnd.api+json",
+                    "Content-Type": "application/vnd.api+json"
                 }
             }).then(response => {
                 return response.json();
-            }).then(function(data) {
+            }).then(function (data) {
                 first_dict = data["data"];
 
                 attributes = first_dict["attributes"];
 
                 links = first_dict["links"];
-
+                titles = attributes["titles"];
                 posterAttr = attributes["posterImage"];
                 coverAttr = attributes["coverImage"];
                 if (coverAttr != null) {
@@ -126,15 +127,20 @@ let init = (app) => {
                 }
                 console.log(app.vue.cover);
                 app.vue.show = links["self"];
-
-                app.vue.title = attributes["canonicalTitle"];
+                if (titles["en"])
+                    app.vue.title = titles["en"];
+                else if (titles["en_us"])
+                    app.vue.title = titles["en_us"];
+                else
+                    app.vue.title = attributes["canonicalTitle"];
                 app.vue.poster = posterAttr["small"];
                 app.vue.episode_num = attributes["episodeCount"];
                 app.vue.synopsis = attributes["synopsis"];
                 app.vue.start_date = attributes["startDate"];
                 app.vue.end_date = attributes["endDate"];
+                app.vue.rating = attributes["ageRating"];
                 app.vue.trailer = "https://www.youtube.com/embed/" + attributes["youtubeVideoId"];
-                
+
             });
         }).then(function () {
 
@@ -144,7 +150,7 @@ let init = (app) => {
                     console.log(app.vue.comments);
                     console.log(app.vue.show);
                 });
-            });
+        });
     };
 
     // Call to the initializer.
