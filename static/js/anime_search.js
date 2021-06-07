@@ -20,6 +20,7 @@ let init = (app) => {
         comments: [],
         add_mode: false,
         add_text: "",
+        show: "",
     };
 
     app.enumerate = (a) => {
@@ -41,12 +42,14 @@ let init = (app) => {
         axios.post(add_comment_url,
             {
                 text: app.vue.add_text,
+                show: app.vue.show,
             }).then(function (response) {
                 app.vue.comments.push({
                     id: response.data.id,
                     text: app.vue.add_text,
                     user: response.data.user,
-                    user_email: response.data.user_email
+                    user_email: response.data.user_email,
+                    show: app.vue.show,
                 });
                 app.enumerate(app.vue.comments);
                 app.reset_form();
@@ -134,8 +137,11 @@ let init = (app) => {
 
                 attributes = first_dict["attributes"];
 
+                links = first_dict["links"];
+
                 posterAttr = attributes["posterImage"];
 
+                app.vue.show = links["self"];
                 app.vue.title = attributes["canonicalTitle"];
                 app.vue.poster = posterAttr["small"];
                 app.vue.episode_num = attributes["episodeCount"];
