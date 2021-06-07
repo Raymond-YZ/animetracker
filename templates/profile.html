@@ -2,57 +2,58 @@
 
 <div class="section" id="vue-target">
 	<div class="section">
-		<h1 class="title">[[=user_email]]'s Profile</h1>
-		<a class="button is-info" href="[[=URL('go_to_list', signer=url_signer)]]">
+		
+		<!-- <a class="button is-info" href="[[=URL('go_to_list', signer=url_signer)]]">
 			<span>List</span>
-		</a>
-		<div class="columns">
+		</a> -->
+		<!-- <div class="columns">
 			<div class="column is-2 is-offset-2">
 				<div class="card">
 					<div class="card-image">
 						<figure class="image is-4by3">
-							<img class="is-rounded" v-if="!uploaded" src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image"></img>
+							<img class="is-rounded" v-if="!uploaded"
+								src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image"></img>
 							<img class="is-rounded" v-if="uploaded" src="uploaded_file" alt="Uploaded file"></img>
 						</figure>
 					</div>
 				</div>
-				<!-- NEw code from lecture -->
+				NEw code from lecture
 				<div class="section" id="vue-target" v-cloak>
 					<div v-if="!selection_done" class="field has-addons block">
-					  <p class="control">
+						<p class="control">
 						<div class="file is-info">
-						  <label class="file-label">
-							<input class="file-input" type="file"
-								   accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"
-								   @change="select_file($event)">
-							<span class="file-cta">
-							  <span class="file-label">
-								<span>Change Profile Picture</span>
-							  </span>
-							</span>
-						  </label>
+							<label class="file-label">
+								<input class="file-input" type="file"
+									accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"
+									@change="select_file($event)">
+								<span class="file-cta">
+									<span class="file-label">
+										<span>Change Profile Picture</span>
+									</span>
+								</span>
+							</label>
 						</div>
-					  </p>
+						</p>
 					</div>
 					<template v-if="selection_done && !uploaded">
-					  <div class="block">
-						<img width="400" :src="img_url" />
-					  </div>
-					  <div class="block">
-						<button class="button is-success" :disabled="uploading" @click="upload_file">
-						  <span class="icon is-small">
-							<i v-if="!uploading" class="fa fa-upload"></i>
-							<i v-if="uploading" class="fa fa-spinner fa-pulse fa-fw"></i>
-						  </span>
-						  <span>Upload</span>
-						</button>
-					  </div>
+						<div class="block">
+							<img width="400" :src="img_url" />
+						</div>
+						<div class="block">
+							<button class="button is-success" :disabled="uploading" @click="upload_file">
+								<span class="icon is-small">
+									<i v-if="!uploading" class="fa fa-upload"></i>
+									<i v-if="uploading" class="fa fa-spinner fa-pulse fa-fw"></i>
+								</span>
+								<span>Upload</span>
+							</button>
+						</div>
 					</template>
 					<div v-if="uploaded">
-					  <i class="fa fa-check"></i> Uploaded!
+						<i class="fa fa-check"></i> Uploaded!
 					</div>
-				  </div>
-				<!-- upload code ends here -->
+				</div>
+				
 				<b>
 					<i class="fa fa-user"> </i>
 					Gender:
@@ -68,32 +69,44 @@
 			<div class="column is-4">
 				<b> Description </b>
 			</div>
+		</div>-->
+
+
+		<div class="container block">
+			<h1 class="title has-text-centered">[[=user.first_name]]'s Anime List</h1>
+			<table class="table is-striped is-fullwidth ">
+				<tr>
+					<th></th>
+					<th>Anime Title</th>
+					<th>Episodes Watched</th>
+					<th>Total Episodes</th>
+					<th></th>
+				</tr>
+				<tr v-for="show in shows">
+					<td><figure class="image is-2by3"><img :src="show.poster"></img></figure></td>
+					<td><a>{{show.anime_name}}</a></td>	
+					<td>{{show.episodes_watched}}</td>
+					<td v-if="show.episode_num">{{show.episode_num}}</td>
+					<td v-if="!show.episode_num">Ongoing</td>
+					<td><button class=" button is-danger is-pulled-right" @click="delete_show(show.user, show.anime_name)">
+						<i class="fa fa-trash fa-fw"></i></button></td>
+				</tr>
+			</table>
 		</div>
-		<div v-for="show in shows" class="column is-half has-text-centered">
-			<div>
-				{{show.anime_name}}
-				{{show.episodes_watched}}
-				{{show.episode_num}}
-			</div>
-			<span class="has-text-danger is-pulled-right">
-				<span @click="delete_show(show.user, show.anime_name)">
-					<i class="fa fa-trash fa-fw"></i>
-				</span>
-			</span>
-		</div>
+
 	</div>
 </div>
 
 
 
 
-	[[block page_scripts]]
-	<!-- Loads the index-specific js for Vue -->
-	<script>
-		let my_callback_url = "[[=XML(my_callback_url)]]";
-		let file_upload_url = "[[=XML(file_upload_url)]]";
-		let load_list_url = "[[=XML(load_list_url)]]";
-		let delete_show_url = "[[=XML(delete_show_url)]]";
-	</script>
-	<script src="js/profile.js"></script>
-	[[end]]
+[[block page_scripts]]
+<!-- Loads the index-specific js for Vue -->
+<script>
+	let my_callback_url = "[[=XML(my_callback_url)]]";
+	let file_upload_url = "[[=XML(file_upload_url)]]";
+	let load_list_url = "[[=XML(load_list_url)]]";
+	let delete_show_url = "[[=XML(delete_show_url)]]";
+</script>
+<script src="js/profile.js"></script>
+[[end]]

@@ -30,7 +30,7 @@ from yatl.helpers import A
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 from py4web.utils.url_signer import URLSigner
 from .models import get_user_email
-
+from py4web.utils.form import Form, FormStyleBulma
 url_signer = URLSigner(session)
 
 @action('browse')
@@ -122,14 +122,18 @@ def add_anime():
     return "ok"
 
 @action('profile')
-@action.uses(db, auth,'profile.html')
+@action.uses(db, auth, auth.user, 'profile.html')
 def profile():
+    r = db(db.auth_user.email == get_user_email()).select().first()
+    shows = db(db.list.user == get_user_email()).select()
     return dict(
         my_callback_url = URL('my_callback', signer=url_signer),
         file_upload_url = URL('file_upload', signer=url_signer),
         load_list_url=URL('load_list', signer=url_signer),
         delete_show_url = URL('delete_show', signer=url_signer),
         user_email=get_user_email(),
+        shows = shows,
+        user = r,
         url_signer=url_signer,
     )
 
@@ -262,3 +266,24 @@ def add_search():
     )
     return "ok"
 
+
+@action('edit_list/<anime_id:int>', method =["GET", "POST"])
+@action.uses(db, session, auth.user, 'edit_list.html')
+def edit_list(anime_id = None):
+    assert anime_id is not None
+    #bird = db(db.bird.id == anime_id).select().first()
+    anime = db.list[anime_id]
+    if anime is None:
+        redirect(URL('profile'))
+    form = Form(db.list, record = anime, csrf_session = session, formstyle = FormStyleBulma)
+    if form.accepted:
+        redirect(URL('profile'))
+    return dict(form = form)
+
+
+@action('delete_row/<anime_id:int')
+@action.uses(db, session, auth.user)
+def delete_row(anime_id=None):
+    assert anime_id is not None
+    db(db.list.id == anime_id).delete()
+    redirect(URL('profile'))

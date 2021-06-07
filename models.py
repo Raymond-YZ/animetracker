@@ -60,4 +60,7 @@ db.define_table('comment',
                 Field('user'),
                 Field('user_email', default = get_user_email))
 
+db.list.anime_name.writable = False
+db.list.user.readable = db.list.anime_name.writable = False
+
 db.commit()

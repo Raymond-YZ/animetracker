@@ -1,9 +1,9 @@
 [[extend 'layout.html']]
 
 <style>
-[v-cloak] {
-    display: none;
-}
+    [v-cloak] {
+        display: none;
+    }
 </style>
 
 
@@ -16,7 +16,7 @@
             <span><i class="fa fa-backward fw"></i> Back </span>
         </a>
     </div>
-    <section class="section">
+    <section class="section container">
         <div class="form">
             <div class="field">
                 <div class="control has-icons-left">
@@ -33,44 +33,34 @@
             </div>
         </div>
 
-        <br>
 
-        <!--<div v-if="search_status">
-            <div v-for="res in results">
-                <div class="card">
-                    <figure class="card-image">
-                        <div class="image is=128x128">
-                            <img :src="res.poster">
-                        </div>
-                    </figure>
-                    <div class="media-content">
-                        <strong>placeholderchars {{res.name}}</strong>
-                        <br>
-                    </div>
-                </div>
-            </div>
-        </div>-->
+    [[for res in search:]]
+    <div class="section container">
+        <div class="card is-half">
+            <figure class="card-image">
+                <figure class="image is-64x64">
+                    <img src="[[=res['poster'] ]]">
+                </figure>
+            </figure>
+            <br>
+            <br>
+            <div class="media-content ">
+                <a href="[[=URL('go_to_search', res['id'])]]">
+                    <strong>[[=res['name'] ]]
+                    </strong>
+                </a>
+                <br>
 
-        <div class="section">
-            [[for res in search:]]
-            <div>
-                <!--[[=res['id'] ]]-->
-                    [[=res['name'] ]]
-                    <a class="button is-primary" href="[[=URL('go_to_search', res['id'])]]">
-                        page
-                    </a>
-                <img src="[[=res['poster'] ]]">
             </div>
             [[pass]]
         </div>
-        <!--<div v-for="res in results">
-            <div>
-                {{res.name}}
-            </div>
-        </div>-->
-    </section>
 
-        <!--<div v-for="res in results">
+    </div>
+    [[pass]]
+</div>
+</section>
+
+<!--<div v-for="res in results">
             <div class="card">
               <figure class="card-image">
                 <div class="image is-128x128">
@@ -82,7 +72,7 @@
             <br>
         </div>
     </div>-->
-    <br>
+<br>
 </div>
 
 [[block page_scripts]]
