@@ -43,7 +43,6 @@ def browse():
     return dict(
         my_callback_url = URL('my_callback', signer=url_signer),
         add_search_url = URL('add_search', signer=url_signer),
-        add_anime_url = URL('add_anime', signer=url_signer),
         delete_search_url = URL('delete_search', signer=url_signer),
         refresh_search_url = URL('refresh_search', signer=url_signer),
         go_to_search_url = URL('go_to_search', signer=url_signer),
@@ -223,6 +222,7 @@ def add_comment():
     name= r.first_name + " " + r.last_name if r is not None else "Unknown"
     current_email = get_user_email()
     id = db.comment.insert(
+        show=request.json.get('show'),
         text=request.json.get('text'),
         user=name,
         user_email=current_email

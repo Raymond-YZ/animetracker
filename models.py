@@ -55,6 +55,7 @@ db.define_table(
 )
 
 db.define_table('comment',
+                Field('show'),
                 Field('text'),
                 Field('user'),
                 Field('user_email', default = get_user_email))
