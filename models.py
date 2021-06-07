@@ -35,7 +35,7 @@ db.define_table(
     'list',
     Field('user', default=get_user_email),
     Field('anime_name'),
-    Field('episodes_watched', default=0),
+    Field('episodes_watched', 'integer', default = 0, requires = IS_INT_IN_RANGE(0, 1e6)),
     Field('episode_num', default=0),
     Field('poster'),
 )

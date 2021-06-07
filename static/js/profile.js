@@ -28,6 +28,33 @@ let init = (app) => {
         return a;
     };
 
+    
+
+    app.decorate = (a) =>{
+        a.map((e) => {e._state = {episodes_watched: "clean"};});
+        return a;
+    };
+
+    app.start_edit = function(a_idx, fn){
+        app.vue.shows[a_idx]._state[fn] = 'edit';
+    }
+
+    app.stop_edit = function(a_idx, fn){
+        let show = app.vue.shows[a_idx];
+        if(show._state[fn] === 'edit'){
+            show._state[fn] = 'pending';
+            axios.post(edit_show_url,
+            {
+                id: show.id,
+                field: fn,
+                value: show[fn],
+            }).then(function(result){
+                show._state[fn] = 'clean';
+            });
+        }
+
+    }
+
     app.select_file = function (event) {
         let input = event.target;
         app.file = input.files[0];
@@ -65,28 +92,9 @@ let init = (app) => {
             req.send(app.file);
         }
 
-        // // We need the event to find the file.
-        // let self = this;
-        // // Reads the file.
-        // let input = event.target;
-        // let file = input.files[0];
-        // if (file) {
-        //     self.uploading = true;
-        //     let file_type = file.type;
-        //     let file_name = file.name;
-        //     let full_url = file_upload_url + "&file_name=" + encodeURIComponent(file_name)
-        //         + "&file_type=" + encodeURIComponent(file_type);
-        //     // Uploads the file, using the low-level streaming interface. This avoid any
-        //     // encoding.
-        //     app.vue.uploading = true;
-        //     let req = new XMLHttpRequest();
-        //     req.addEventListener("load", function () {
-        //         app.upload_complete(file_name, file_type)
-        //     });
-        //     req.open("PUT", full_url, true);
-        //     req.send(file);
-        // }
     };
+
+
 
     app.delete_show = function (email, anime_name) {
         axios.get(delete_show_url, { params: {email: email, name: anime_name} }).then(function(response){
@@ -106,6 +114,8 @@ let init = (app) => {
         select_file: app.select_file,
         upload_file: app.upload_file,
         delete_show: app.delete_show,
+        start_edit: app.start_edit,
+        stop_edit: app.stop_edit,
     };
 
     // This creates the Vue instance.
@@ -120,7 +130,7 @@ let init = (app) => {
         // Put here any initialization code.
         // Typically this is a server GET call to load the data.
         axios.get(load_list_url).then(function (response) {
-            app.vue.shows = response.data.show_list
+            app.vue.shows = app.decorate(app.enumerate(response.data.show_list));
         })
     };
 

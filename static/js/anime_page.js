@@ -142,6 +142,7 @@ let init = (app) => {
                 posterAttr = attributes["posterImage"];
 
                 app.vue.show = links["self"];
+
                 app.vue.title = attributes["canonicalTitle"];
                 app.vue.poster = posterAttr["small"];
                 app.vue.episode_num = attributes["episodeCount"];

@@ -2,7 +2,7 @@
 
 <div class="section" id="vue-target">
 	<div class="section">
-		
+
 		<!-- <a class="button is-info" href="[[=URL('go_to_list', signer=url_signer)]]">
 			<span>List</span>
 		</a> -->
@@ -83,13 +83,29 @@
 					<th></th>
 				</tr>
 				<tr v-for="show in shows">
-					<td><figure class="image is-2by3"><img :src="show.poster"></img></figure></td>
-					<td><a>{{show.anime_name}}</a></td>	
-					<td>{{show.episodes_watched}}</td>
+
+					<td>
+						<figure class="image is-2by3"><img :src="show.poster"></img></figure>
+					</td>
+					<td><a>{{show.anime_name}}</a></td>
+					<td v-for="fn in ['episodes_watched']">
+						<div class="control" :class="{'is-loading': show._state[fn] === 'pending'}">
+							<input type="text" class="input" v-model="show[fn]" :class="{
+								'is-focused': show._state[fn] === 'edit',
+								'is-static': show._state[fn] === 'clean',
+							}" :readonly="show._state[fn] === 'clean'"
+							@click="start_edit(show._idx, fn)"
+							@blur="stop_edit(show._idx, fn)"
+							/>
+						</div>
+
+					</td>
+					<!-- <td>{{show.episodes_watched}}</td> -->
 					<td v-if="show.episode_num">{{show.episode_num}}</td>
 					<td v-if="!show.episode_num">Ongoing</td>
-					<td><button class=" button is-danger is-pulled-right" @click="delete_show(show.user, show.anime_name)">
-						<i class="fa fa-trash fa-fw"></i></button></td>
+					<td><button class=" button is-danger is-pulled-right"
+							@click="delete_show(show.user, show.anime_name)">
+							<i class="fa fa-trash fa-fw"></i></button></td>
 				</tr>
 			</table>
 		</div>
@@ -107,6 +123,7 @@
 	let file_upload_url = "[[=XML(file_upload_url)]]";
 	let load_list_url = "[[=XML(load_list_url)]]";
 	let delete_show_url = "[[=XML(delete_show_url)]]";
+	let edit_show_url = "[[=XML(edit_show_url)]]";
 </script>
 <script src="js/profile.js"></script>
 [[end]]

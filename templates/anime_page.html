@@ -12,7 +12,7 @@
   <div class="columns">
     <div class="column is-3 is-offset-1">
       <h1 class="title">{{title}}</h1>
-      
+
       <a class="button is-info" href="[[=URL('index')]]">
         <span><i class="fa fa-backward fw"></i> Back </span>
       </a>
@@ -55,46 +55,46 @@
         <i class="fa fa-comments-o"></i>
         Comments
       </h2>
-        <!-- Allow users to view other posts and add posts for each anime -->
-        <div>
-          <br />
-          <button @click="set_add_status(true)" class="button is-primary">
-            <span class="icon"><i class="fa fa-plus"></i></span>
-            <span>Add Comment</span>
-          </button>
-        </div>
+      <!-- Allow users to view other posts and add posts for each anime -->
+      <div>
+        <br />
+        <button @click="set_add_status(true)" class="button is-primary">
+          <span class="icon"><i class="fa fa-plus"></i></span>
+          <span>Add Comment</span>
+        </button>
+      </div>
 
-        <!-- Form to add comments -->
-        <div v-if="add_mode" class="container block">
-          <div class="title">Add Comment</div>
-          <div class="form">
+      <!-- Form to add comments -->
+      <div v-if="add_mode" class="container block">
+        <div class="title">Add Comment</div>
+        <div class="form">
 
-            <div class="field">
-              <div class="control">
-                <input type="text" v-model="add_text" class="input" placeholder="Enter new comment here">
-              </div>
+          <div class="field">
+            <div class="control">
+              <input type="text" v-model="add_text" class="input" placeholder="Enter new comment here">
             </div>
+          </div>
 
-            <div class="field">
-              <div class="control">
-                <input type="submit" @click="add_comment" value="Post Comment" class="button is-primary">
-                <input type="submit" @click="set_add_status(false)" value="Cancel" class="button is-warning">
-              </div>
+          <div class="field">
+            <div class="control">
+              <input type="submit" @click="add_comment" value="Post Comment" class="button is-primary">
+              <input type="submit" @click="set_add_status(false)" value="Cancel" class="button is-warning">
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Posts go here -->
+      <!-- Posts go here -->
 
-        <div id="comments" class="container">
-          <br />
-          <div v-for="c in comments.slice().reverse()">
-            <div v-if="c.show == show">
+      <div id="comments" class="container">
+        <br />
+        <div v-for="c in comments.slice().reverse()">
+          <div v-if="c.show === show">
             {{c.text}}
 
             <br />
             <p style="color:darkgray">{{c.user}}</p>
-            
+
             <!--add like buttons here-->
 
             <div>
@@ -126,12 +126,12 @@
                 </span>
               </span>
             </div>
-            </div>
           </div>
         </div>
+      </div>
 
 
-     
+
     </div>
   </div>
 

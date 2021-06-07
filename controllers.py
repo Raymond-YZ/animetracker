@@ -31,6 +31,7 @@ from .common import db, session, T, cache, auth, logger, authenticated, unauthen
 from py4web.utils.url_signer import URLSigner
 from .models import get_user_email
 from py4web.utils.form import Form, FormStyleBulma
+import time
 url_signer = URLSigner(session)
 
 @action('browse')
@@ -133,6 +134,7 @@ def profile():
         file_upload_url = URL('file_upload', signer=url_signer),
         load_list_url=URL('load_list', signer=url_signer),
         delete_show_url = URL('delete_show', signer=url_signer),
+        edit_show_url = URL('edit_show', signer = url_signer),
         user_email=get_user_email(),
         shows = shows,
         user = r,
@@ -166,6 +168,17 @@ def list():
         my_callback_url = URL('my_callback', signer=url_signer),
         user_email=get_user_email(),
     )
+
+@action('edit_show', method="POST")
+@action.uses(db, auth, url_signer.verify())
+def edit_show():
+    id = request.json.get("id")
+    field = request.json.get("field")
+    value = request.json.get("value")
+    db(db.list.id == id).update(**{field:value})
+    time.sleep(1)
+    return "ok"
+
 
 @action('delete_show')
 @action.uses(db, auth, url_signer.verify())
