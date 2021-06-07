@@ -1,9 +1,9 @@
 [[extend 'layout.html']]
 
 <style>
-[v-cloak] {
-    display: none;
-}
+    [v-cloak] {
+        display: none;
+    }
 </style>
 
 
@@ -34,30 +34,29 @@
         </div>
     </section>
 
-
-        <div class="section">
-            [[for res in search:]]
-            <div>
-                <div class="card">
-                  <figure class="card-image">
-                    <div class="image is-128x128">
-                        <img src="[[=res['poster'] ]]">
-                    </div>
+    [[for res in search:]]
+    <div class="section">
+        <div class="card">
+            <figure class="card-image">
+                <figure class="image is-96x96">
+                    <img src="[[=res['poster'] ]]">
                 </figure>
-                <div class="media-content">
-                    <a  href="[[=URL('go_to_search', res['id'])]]">
-                        <strong>placeholderchars             [[=res['name'] ]]
-                        </strong>
-                    </a>
-                    <br>
-                </div>
-                [[pass]]
+            </figure>
+            <div class="media-content has-text-right">
+                <a href="[[=URL('go_to_search', res['id'])]]">
+                    <strong>[[=res['name'] ]]
+                    </strong>
+                </a>
+                <br>
             </div>
+            
         </div>
     </div>
-        </section>
+    [[pass]]
+</div>
+</section>
 
-        <!--<div v-for="res in results">
+<!--<div v-for="res in results">
             <div class="card">
               <figure class="card-image">
                 <div class="image is-128x128">
@@ -69,7 +68,7 @@
             <br>
         </div>
     </div>-->
-    <br>
+<br>
 </div>
 
 [[block page_scripts]]
