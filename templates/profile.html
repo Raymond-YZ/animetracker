@@ -2,12 +2,12 @@
 
 <style>
 	[v-cloak] {
-	  display: none;
+		display: none;
 	}
-	
+
 	.cell {
-	  justify-content: center;
-	  
+		justify-content: center;
+
 	}
 </style>
 
@@ -30,27 +30,25 @@
 				</tr>
 				<tr v-for="show in shows">
 
-					<td >
+					<td>
 						<figure class="image is-64x64"><img :src="show.poster"></img></figure>
 						<br>
 					</td>
-					<td ><a>{{show.anime_name}}</a></td>
+					<td><a>{{show.anime_name}}</a></td>
 					<td>{{show.showtype}}</td>
-					<td v-for="fn in ['episodes_watched']"  >
+					<td v-for="fn in ['episodes_watched']">
 						<div class="control" :class="{'is-loading': show._state[fn] === 'pending'}">
 							<input type="text" class="input" v-model="show[fn]" :class="{
 								'is-focused': show._state[fn] === 'edit',
 								'is-static': show._state[fn] === 'clean',
-							}" :readonly="show._state[fn] === 'clean'"
-							@click="start_edit(show._idx, fn)"
-							@blur="stop_edit(show._idx, fn)"
-							/>
+							}" :readonly="show._state[fn] === 'clean'" @click="start_edit(show._idx, fn)"
+								@blur="stop_edit(show._idx, fn)" />
 						</div>
 
 					</td>
 					<!-- <td>{{show.episodes_watched}}</td> -->
 					<td v-if="show.episode_num">{{show.episode_num}}</td>
-					<td v-if="!show.episode_num" >Ongoing</td>
+					<td v-if="!show.episode_num">Ongoing</td>
 					<td><button class=" button is-danger is-pulled-right"
 							@click="delete_show(show.user, show.anime_name)">
 							<i class="fa fa-trash fa-fw"></i></button></td>

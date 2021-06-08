@@ -98,6 +98,7 @@ def index():
         my_callback_url = URL('my_callback', signer=url_signer),
         add_anime_url=URL('add_anime', signer=url_signer),
         file_upload_url = URL('file_upload', signer=url_signer),
+        delete_search_url = URL('delete_search', signer=url_signer),
         url_signer=url_signer,
         rows=rows,
     )
@@ -258,17 +259,6 @@ def delete_comment():
     db(db.comment.id == id).delete()
     return "ok"
 
-@action('file_upload', method="PUT")
-@action.uses()
-def file_upload():
-    file_name = request.params.get("file_name")
-    file_type = request.params.get("file_type")
-    uploaded_file = request.body # This is a file, you can read it.
-    # Diagnostics
-    print("Uploaded", file_name, "of type", file_type)
-    print("Content:", uploaded_file.read())
-    return "ok"
-
 @action('add_search', method="POST")
 @action.uses(db, auth)
 def add_search():
@@ -285,12 +275,3 @@ def add_search():
     )
     return "ok"
 
-
-
-
-@action('delete_row/<anime_id:int')
-@action.uses(db, session, auth.user)
-def delete_row(anime_id=None):
-    assert anime_id is not None
-    db(db.list.id == anime_id).delete()
-    redirect(URL('profile'))
