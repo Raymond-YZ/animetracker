@@ -21,6 +21,10 @@ let init = (app) => {
         return a;
     };
 
+    app.delete_search = function () {
+        axios.get(delete_search_url);
+    };
+
     app.add_anime = function () {
         fetch("https://kitsu.io/api/edge/anime?filter[season]=spring&filter[seasonYear]=2021&sort=-averageRating", {
             "method": "GET",
@@ -87,6 +91,7 @@ let init = (app) => {
         //    app.vue.anime.pop();
         //}
         app.add_anime();
+        app.delete_search();
     };
 
     // Call to the initializer.
