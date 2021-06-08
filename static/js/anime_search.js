@@ -40,6 +40,7 @@ let init = (app) => {
             showtype: app.vue.showtype,
             poster: app.vue.poster,
         });
+        alert('Added to Watchlist');
     }
 
     app.add_comment = function () {
