@@ -1,9 +1,18 @@
 [[extend 'layout.html']]
 
 <style>
-    [v-cloak] {
-        display: none;
-    }
+[v-cloak] {
+    display: none;
+}
+
+.container {
+  justify-content: left-aligned;
+  display: grid;
+  grid-template-columns: 200px 200px 200px 200px 200px;
+  grid-template-rows: 0px auto 0px 0px 0px; 
+  column-gap: 15px;
+  row-gap: 0px;
+}
 </style>
 
 
@@ -16,7 +25,7 @@
             <span><i class="fa fa-backward fw"></i> Back </span>
         </a>
     </div>
-    <section class="section container">
+    <section class="section">
         <div class="form">
             <div class="field">
                 <div class="control has-icons-left">
@@ -33,31 +42,24 @@
             </div>
         </div>
 
-
-        [[for res in search:]]
+        <br><br>
         <div class="section container">
-            <div class="card is-half">
-                <figure class="card-image">
-                    <figure class="image is-64x64">
-                        <img src="[[=res['poster'] ]]">
-                    </figure>
+            [[for res in search:]]
+            <div class="card is-horizontal">
+                <div class="card-image">
+                  <figure class="image is-2by2">
+                    <img src="[[=res['poster'] ]]">
                 </figure>
-                <br>
-                <br>
-                <div class="media-content ">
-                    <a href="[[=URL('go_to_search', res['id'])]]">
-                        <strong>[[=res['name'] ]]
-                        </strong>
-                    </a>
-                    <br>
-
-                </div>
-
             </div>
-        </div>
-        [[pass]]
-    </section>
-    <br>
+            <div class="card-content has-text-centered">
+               <a href="[[=URL('go_to_search', res['id'])]]">
+                  [[=res['name'] ]]
+              </a>           
+          </div>
+      </div>
+      <br>
+      [[pass]]
+  </div>
 </div>
 
 [[block page_scripts]]
