@@ -98,6 +98,7 @@ def index():
         my_callback_url = URL('my_callback', signer=url_signer),
         add_anime_url=URL('add_anime', signer=url_signer),
         file_upload_url = URL('file_upload', signer=url_signer),
+        delete_search_url = URL('delete_search', signer=url_signer),
         url_signer=url_signer,
         rows=rows,
     )
