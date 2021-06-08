@@ -40,7 +40,7 @@ let init = (app) => {
         console.log(show);
         if (show._state[fn] === 'edit') {
             show._state[fn] = 'pending';
-            if (show[fn] <= show["episode_num"]) {
+            if (show[fn] <= show["episode_num"] || !show["episode_num"]) {
                 axios.post(edit_show_url,
                     {
                         id: show.id,

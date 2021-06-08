@@ -72,7 +72,9 @@
           <p>{{synopsis}}</p>
         </div>
       </article>
-      <i class="fa fa-caret-square-o-right has-text-success"></i> Episodes: {{episode_num}}
+      <i class="fa fa-caret-square-o-right has-text-success"></i> Episodes:
+      <span v-if="episode_num">{{episode_num}}</span> 
+      <span v-if="!episode_num">Ongoing</span>
       <br>
       <i class="fa fa-calendar has-text-info"></i> Air Date: {{start_date}} / {{end_date}}
       <br>

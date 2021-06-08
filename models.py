@@ -24,14 +24,6 @@ def get_time():
 ## always commit your models to avoid problems later
 
 db.define_table(
-    'profiles',
-    Field('username', default='WeebWarrior'),
-    Field('user_email', default=get_user_email),
-    Field('thumbnail', 'text'),
-    Field('description', 'text'),
-)
-
-db.define_table(
     'list',
     Field('user', default=get_user_email),
     Field('anime_name'),
