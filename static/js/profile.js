@@ -29,10 +29,12 @@ let init = (app) => {
         return a;
     };
 
+    //users can edit the number of episodes watched
     app.start_edit = function (a_idx, fn) {
         app.vue.shows[a_idx]._state[fn] = 'edit';
     }
 
+    //checks to see if entry is valid (ie. cannot watch more than the number of episodes published)
     app.stop_edit = function (a_idx, fn) {
         let show = app.vue.shows[a_idx];
         console.log(show);
@@ -48,13 +50,15 @@ let init = (app) => {
                         show._state[fn] = 'clean';
                     });
             }
-            else
+            else{
                 show._state[fn] = 'edit';
+                alert("Please enter a valid entry.");
+            }
         }
 
     }
 
-
+    //delete show
     app.delete_show = function (email, anime_name) {
         axios.get(delete_show_url, { params: { email: email, name: anime_name } }).then(function (response) {
             for (i = 0; i < app.vue.shows.length; i++) {
@@ -84,8 +88,6 @@ let init = (app) => {
 
     // And this initializes it.
     app.init = () => {
-        // Put here any initialization code.
-        // Typically this is a server GET call to load the data.
         axios.get(load_list_url).then(function (response) {
             app.vue.shows = app.decorate(app.enumerate(response.data.show_list));
         })

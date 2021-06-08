@@ -149,7 +149,6 @@ let init = (app) => {
 
         axios.get(load_comments_url)
             .then(function (response) {
-            //    app.complete(response.data.comments);
                 app.vue.comments = app.enumerate(response.data.comments)
             });
     };
@@ -159,5 +158,4 @@ let init = (app) => {
 };
 
 // This takes the (empty) app object, and initializes it,
-// putting all the code i
 init(app);

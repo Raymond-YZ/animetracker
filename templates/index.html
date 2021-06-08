@@ -1,49 +1,44 @@
 [[extend 'layout.html']]
 
 <style>
-[v-cloak] {
-  display: none;
-}
+  [v-cloak] {
+    display: none;
+  }
 
-.container {
-  justify-content: center;
-  display: grid;
-  grid-template-columns: 200px 200px 200px 200px 200px;
-  grid-template-rows: 0px auto 0px 0px 0px; 
-  column-gap: 15px;
-  row-gap: 0px;
-}
+  .container {
+    justify-content: center;
+    display: grid;
+    grid-template-columns: 200px 200px 200px 200px 200px;
+    grid-template-rows: 0px auto 0px 0px 0px;
+    column-gap: 15px;
+    row-gap: 0px;
+  }
 </style>
 
 
 <div class="section" id="vue-target">
-  <!-- Put here your Vue.js template -->
 
+  <!--display cards in a grid with title and poster-->
   <h3 class="title has-text-centered">Top Anime Spring 2021</h3>
-
-
-  
   <br />
-  
   <div class="container">
-
-      [[for row in rows:]]
-      <div class="card is-horizontal">
-        <div class="card-image">
-          <figure class="image is-2by2">
-            <img src="[[=row['poster'] ]]">
-          </figure>
-        </div>
-        <div class="card-content has-text-centered">
-         <a href="[[=URL('go_to_anime', row['id'])]]">
+    [[for row in rows:]]
+    <div class="card is-horizontal">
+      <div class="card-image">
+        <figure class="image is-2by2">
+          <img src="[[=row['poster'] ]]">
+        </figure>
+      </div>
+      <div class="card-content has-text-centered">
+        <a href="[[=URL('go_to_anime', row['id'])]]">
           [[=row['name'] ]]
-        </a>           
+        </a>
       </div>
     </div>
     <br>
     [[pass]]
- 
- </div>
+
+  </div>
 
 </div>
 

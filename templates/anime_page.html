@@ -1,26 +1,27 @@
 [[extend 'layout.html']]
 
 <style>
-[v-cloak] {
-  display: none;
-}
+  [v-cloak] {
+    display: none;
+  }
 
-.hero.has-background {
-  position: relative;
-  overflow: hidden;
-}
-.hero-background {
-  position: absolute;
-  object-fit: cover;
-  object-position: center center;
-  width: 100%;
-  height: 100%;
-  filter: blur(0.5px);
-}
-.hero-background.is-transparent {
-  opacity: 1.0;
-}
+  .hero.has-background {
+    position: relative;
+    overflow: hidden;
+  }
 
+  .hero-background {
+    position: absolute;
+    object-fit: cover;
+    object-position: center center;
+    width: 100%;
+    height: 100%;
+    filter: blur(0.5px);
+  }
+
+  .hero-background.is-transparent {
+    opacity: 1.0;
+  }
 </style>
 
 
@@ -39,6 +40,7 @@
   <br>
   <br>
 
+  <!--section for anime title and poster-->
   <div class="columns">
     <div class="column is-3 is-offset-1">
       <h1 class="title">{{title}}</h1>
@@ -56,6 +58,7 @@
       </div>
     </div>
 
+    <!--section for anime information-->
     <div class="column is-4">
       <br /> <br />
       <button @click="add_show()" class="button is-primary">
@@ -75,8 +78,7 @@
       <i class="fa fa-calendar has-text-info"></i> Air Date: {{start_date}} / {{end_date}}
       <br>
       <i class="fa fa-ticket has-text-warning"></i> Rating: {{rating}}
-      <br
-      >      <i class="fa fa-film has-text-black"></i> Show Type: {{showtype}}
+      <br> <i class="fa fa-film has-text-black"></i> Show Type: {{showtype}}
       <br>
       <i class="fa fa-youtube-play has-text-danger"></i> Trailer:
       <br>
@@ -116,7 +118,7 @@
         </div>
       </div>
 
-      <!-- Posts go here -->
+      <!-- Comments go here -->
 
       <div id="comments" class="container">
         <br />
@@ -129,36 +131,27 @@
                 <span v-if="c.user_email === '[[=user_email]]'" @click="delete_comment(c._idx)">
 
                   <button class="delete" aria-label="delete"></button>
-                </div>
-                <div class="message-body">
-                  {{c.text}}
-                </article>
-
-                <div>
-                  <!--add like buttons here-->
-                  <!--
-                  <span class="has-text-danger is-pulled-right">
-                    <span v-if="c.user_email === '[[=user_email]]'" @click="delete_comment(c._idx)">
-                      <i class="fa fa-trash fa-fw fa-2x"></i>
-                    </span>
-                  </span>-->
-                </div>
               </div>
-            </div>
+              <div class="message-body">
+                {{c.text}}
+            </article>
           </div>
         </div>
-
       </div>
+    </div>
 
-      [[block page_scripts]]
-      <!-- Loads the index-specific js for Vue -->
-      <script>
-        let my_callback_url = "[[=XML(my_callback_url)]]";
-        let get_anime_url = "[[=XML(get_anime_url)]]";
-        let add_to_list_url = "[[=XML(add_to_list_url)]]";
-        let load_comments_url = "[[=XML(load_comments_url)]]";
-        let add_comment_url = "[[=XML(add_comment_url)]]";
-        let delete_comment_url = "[[=XML(delete_comment_url)]]";
-      </script>
-      <script src="js/anime_page.js"></script>
-      [[end]]
+  </div>
+</div>
+
+[[block page_scripts]]
+<!-- Loads the index-specific js for Vue -->
+<script>
+  let my_callback_url = "[[=XML(my_callback_url)]]";
+  let get_anime_url = "[[=XML(get_anime_url)]]";
+  let add_to_list_url = "[[=XML(add_to_list_url)]]";
+  let load_comments_url = "[[=XML(load_comments_url)]]";
+  let add_comment_url = "[[=XML(add_comment_url)]]";
+  let delete_comment_url = "[[=XML(delete_comment_url)]]";
+</script>
+<script src="js/anime_page.js"></script>
+[[end]]

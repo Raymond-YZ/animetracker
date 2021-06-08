@@ -56,8 +56,6 @@ let init = (app) => {
                     anime_title = titles["en_us"];
                 else
                     anime_title = attributes["canonicalTitle"];
-                //app.vue.anime.push({link: links["self"],
-                //                     name: attributes["canonicalTitle"],});
                 axios.post(add_anime_url,
                 {
                     link: links["self"],
@@ -85,11 +83,6 @@ let init = (app) => {
 
     // And this initializes it.
     app.init = () => {
-        // Put here any initialization code.
-        // Typically this is a server GET call to load the data.
-        //for (i = 0; i < app.vue.anime.length; i++) {
-        //    app.vue.anime.pop();
-        //}
         app.add_anime();
         app.delete_search();
     };

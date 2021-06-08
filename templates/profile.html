@@ -13,10 +13,6 @@
 
 <div class="section" id="vue-target">
 	<div class="section">
-
-
-
-
 		<div class="container block">
 			<h1 class="title has-text-centered">[[=user.first_name]]'s Anime List</h1>
 			<table class="table is-striped is-fullwidth ">
@@ -36,6 +32,8 @@
 					</td>
 					<td><a>{{show.anime_name}}</a></td>
 					<td>{{show.showtype}}</td>
+					<!--allow users to edit the number of episodes they watched, 
+						cannot be more than max number of episodes available -->
 					<td v-for="fn in ['episodes_watched']">
 						<div class="control" :class="{'is-loading': show._state[fn] === 'pending'}">
 							<input type="text" class="input" v-model="show[fn]" :class="{
@@ -46,7 +44,6 @@
 						</div>
 
 					</td>
-					<!-- <td>{{show.episodes_watched}}</td> -->
 					<td v-if="show.episode_num">{{show.episode_num}}</td>
 					<td v-if="!show.episode_num">Ongoing</td>
 					<td><button class=" button is-danger is-pulled-right"
