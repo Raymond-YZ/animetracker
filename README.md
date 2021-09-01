@@ -18,4 +18,4 @@ Database:
 	The “comments” database is used for keeping track of comments left by users on each anime page. The “show” element stores the link to retrieve info from the API database and is used for identification since the links are for the most part unique. The “user_email” element is used to identify which user wrote the comment so that we can give appropriate privileges(like deleting).
 	The “list” table used to store the anime saved by all users. Because each user’s email is unique, it is used to identify which anime should be showing up in a user’s list. The other elements are used to display information about the anime which will appear in the user’s profile page.
 
-
+Video Link: https://www.youtube.com/watch?v=cKVvxyfPfTw
